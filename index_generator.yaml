@@ -1,0 +1,17 @@
+#
+# dart pub global activate index_generator
+#
+index_generator:
+  exclude:
+    - "**.g.dart"
+  # Define the paths of the folders in which to generate the index files
+  indexes:
+    #
+    # Share
+    #
+
+    # Features
+    #
+    - path: lib/src/features
+      include: [home]
+      name: home

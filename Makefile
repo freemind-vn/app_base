@@ -54,6 +54,7 @@ index:
 #: code formatting
 fmt:
 	dart pub global run import_sorter:main --no-comments
+	dart fix --apply
 	dart format --fix lib/src/
 
 #: analyzes the project's Dart source code
