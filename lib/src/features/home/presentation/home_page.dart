@@ -10,8 +10,13 @@ class HomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Sample App'),
       ),
-      body: const Center(
-        child: Text('Hello, world!'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(child: Text('Hello, world!')),
+          const SizedBox(height: 12),
+          OutlinedButton(onPressed: () {}, child: const Text('Click me'))
+        ],
       ),
     );
   }
