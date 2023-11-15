@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_modular/flutter_modular.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -15,7 +17,14 @@ class HomePage extends StatelessWidget {
         children: [
           const Center(child: Text('Hello, world!')),
           const SizedBox(height: 12),
-          OutlinedButton(onPressed: () {}, child: const Text('Click me'))
+          OutlinedButton(
+            onPressed: () => Modular.to.pushNamed('/stories'),
+            child: const Text('/stories'),
+          ),
+          OutlinedButton(
+            onPressed: () => Modular.to.pushNamed('/signin'),
+            child: const Text('/signin'),
+          ),
         ],
       ),
     );

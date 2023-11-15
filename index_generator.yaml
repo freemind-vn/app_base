@@ -7,11 +7,22 @@ index_generator:
   # Define the paths of the folders in which to generate the index files
   indexes:
     # Share
+    - path: lib
+      include: [src/themes]
+      name: themes
+
+    # Modules
+    - path: lib
+      include: [src/features/*/*_module.dart]
+      name: modules
 
     # Features
     - path: lib/src/features
       include: [home]
       name: home
+    - path: lib/src/features
+      include: [user]
+      name: user
 
     # Stories
     - path: lib
