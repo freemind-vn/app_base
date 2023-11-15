@@ -15,6 +15,10 @@ DESCRIPTION		= $(call get_pubspec,description)
 # Default target
 PLATFORM		?= $(shell uname | tr A-Z a-z)
 
+ifeq ($(PLATFORM), darwin)
+	PLATFORM	= macos
+endif
+
 # Flutter build flags
 SERVICE_HOST	?= happymind.freemind.vn
 SERVICE_PORT	?= 443
