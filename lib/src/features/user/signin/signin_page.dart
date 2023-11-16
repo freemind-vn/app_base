@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/src/features/user/signin/signin_controller.dart';
+import 'package:app/src/features/user/signin/signin_notifier.dart';
 
-class SigninPage extends StatelessWidget {
-  const SigninPage({super.key});
+class SignInPage extends StatelessWidget {
+  SignInPage({super.key});
+
+  final notifier = Modular.get<SignInNotifier>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Modular.get<SignInController>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -24,8 +25,8 @@ class SigninPage extends StatelessWidget {
           child: Column(
             children: [
               TextField(
-                controller: controller.username,
-                onChanged: controller.onChange,
+                controller: notifier.username,
+                onChanged: notifier.onChange,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Username',
@@ -35,8 +36,8 @@ class SigninPage extends StatelessWidget {
                 height: 5,
               ),
               TextField(
-                controller: controller.password,
-                onChanged: controller.onChange,
+                controller: notifier.password,
+                onChanged: notifier.onChange,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Password',
@@ -47,13 +48,14 @@ class SigninPage extends StatelessWidget {
                 height: 5,
               ),
               ValueListenableBuilder(
-                  valueListenable: controller.isValid,
-                  builder: (context, isValid, child) {
-                    return FilledButton(
-                      onPressed: (isValid == true ? controller.login : null),
-                      child: const Text('Login'),
-                    );
-                  }),
+                valueListenable: notifier.isValid,
+                builder: (context, isValid, child) {
+                  return FilledButton(
+                    onPressed: (isValid == true ? notifier.login : null),
+                    child: const Text('Login'),
+                  );
+                },
+              ),
             ],
           ),
         ),

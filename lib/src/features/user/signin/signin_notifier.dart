@@ -1,12 +1,21 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
-class SignInController {
+import 'signin_repository.dart';
+
+class SignInNotifier {
   final username = TextEditingController();
   final password = TextEditingController();
 
   final isValid = ValueNotifier(false);
+  final user = ValueNotifier<User?>(null);
+
+  final repository = SignInRepository();
+
   login() {
-    print('username: ${username.text}, password: ${password.text}');
+    user.value = repository.signIn('x', 'y');
+    log(user.value?.username ?? '');
   }
 
   onChange(String value) {
