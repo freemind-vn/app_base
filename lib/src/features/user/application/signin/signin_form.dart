@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SignInForm extends StatelessWidget {
-  SignInForm({super.key, required this.onChange, required this.onSubmit});
+  SignInForm({super.key, required this.onSubmit});
 
-  final Function(String username, String password) onChange;
-  final Function() onSubmit;
+  final Function(String username, String password) onSubmit;
 
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -38,7 +37,7 @@ class SignInForm extends StatelessWidget {
           valueListenable: _isValid,
           builder: (context, value, child) {
             return FilledButton(
-              onPressed: value ? onSubmit : null,
+              onPressed: value ? _onSubmit : null,
               child: const Text('Login'),
             );
           },
@@ -56,6 +55,11 @@ class SignInForm extends StatelessWidget {
     }
 
     _isValid.value = true;
-    onChange(username, password);
+  }
+
+  _onSubmit() {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    onSubmit(username, password);
   }
 }

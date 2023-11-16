@@ -7,15 +7,7 @@ class SignInController {
 
   final repository = SignInRepository();
 
-  String _username = '';
-  String _password = '';
-
-  onChange(String username, String password) {
-    _username = username;
-    _password = password;
-  }
-
-  login() {
-    user.value = repository.signIn(_username, _password);
+  login(String username, String password) {
+    user.value = repository.signIn(username, password);
   }
 }

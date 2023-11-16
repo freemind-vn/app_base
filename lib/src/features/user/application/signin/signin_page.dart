@@ -20,10 +20,7 @@ class SignInPage extends StatelessWidget {
         title: const Text('Signin'),
       ),
       body: Center(
-        child: SignInForm(
-          onChange: controller.onChange,
-          onSubmit: controller.login,
-        ),
+        child: SignInForm(onSubmit: controller.login),
       ),
     );
   }
