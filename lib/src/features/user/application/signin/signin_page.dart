@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/src/features/user/signin/signin_notifier.dart';
+import 'signin_controller.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
 
-  final notifier = Modular.get<SignInNotifier>();
+  final controller = Modular.get<SignInController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class SignInPage extends StatelessWidget {
           child: Column(
             children: [
               TextField(
-                controller: notifier.username,
-                onChanged: notifier.onChange,
+                controller: controller.username,
+                onChanged: controller.onChange,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Username',
@@ -36,8 +36,8 @@ class SignInPage extends StatelessWidget {
                 height: 5,
               ),
               TextField(
-                controller: notifier.password,
-                onChanged: notifier.onChange,
+                controller: controller.password,
+                onChanged: controller.onChange,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Password',
@@ -48,10 +48,10 @@ class SignInPage extends StatelessWidget {
                 height: 5,
               ),
               ValueListenableBuilder(
-                valueListenable: notifier.isValid,
+                valueListenable: controller.isValid,
                 builder: (context, isValid, child) {
                   return FilledButton(
-                    onPressed: (isValid == true ? notifier.login : null),
+                    onPressed: (isValid == true ? controller.login : null),
                     child: const Text('Login'),
                   );
                 },

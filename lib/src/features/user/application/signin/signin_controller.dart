@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import 'signin_repository.dart';
+import 'package:app/src/features/user.dart';
 
-class SignInNotifier {
+class SignInController {
   final username = TextEditingController();
   final password = TextEditingController();
 

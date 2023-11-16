@@ -51,13 +51,10 @@ init:
 	dart pub global activate protoc_plugin
 	dart pub global activate flutterfire_cli
 
-#: automatically generate index / barrel files with all the exports needed for your library.
-index:
-	dart pub global run index_generator
-
 #: code formatting
 fmt:
 	dart pub global run import_sorter:main --no-comments
+	dart pub global run index_generator
 	dart fix --apply
 	dart format --fix lib/src/
 

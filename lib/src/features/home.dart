@@ -2,5 +2,5 @@
 
 library home;
 
+export 'home/application/home_page.dart';
 export 'home/home_module.dart';
-export 'home/presentation/home_page.dart';

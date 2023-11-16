@@ -1,12 +1,6 @@
-class User {
-  final String username;
-  String? firstname;
-  String? lastname;
+import 'user.dart';
 
-  User({required this.username, this.firstname, this.lastname});
-}
-
-class SignInRepository {
+class UserService {
   User signIn(String username, String password) {
     // Call fetch or sdk then return the user
     return User(username: username);
