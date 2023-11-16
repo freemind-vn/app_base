@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'package:app/src/features/user.dart';
 
@@ -20,7 +21,10 @@ class SignInPage extends StatelessWidget {
         title: const Text('Signin'),
       ),
       body: Center(
-        child: SignInForm(onSubmit: controller.login),
+        child: MaxWidthBox(
+          maxWidth: 480,
+          child: SignInForm(onSubmit: controller.login),
+        ),
       ),
     );
   }

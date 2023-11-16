@@ -38,6 +38,7 @@ dependencies:
 
   # Base
   flutter_modular: ^6.3.2
+  responsive_framework: ^1.1.1
 
   # Tests
   storybook_flutter: ^0.14.0
