@@ -3,6 +3,7 @@
 library user;
 
 export 'user/application/signin/signin_controller.dart';
+export 'user/application/signin/signin_form.dart';
 export 'user/application/signin/signin_page.dart';
 export 'user/data/user.dart';
 export 'user/data/user_service.dart';
