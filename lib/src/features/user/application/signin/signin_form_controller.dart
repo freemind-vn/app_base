@@ -10,19 +10,21 @@ extension FilterExtension on Stream<SigninValidateEvent> {
 }
 
 class SigninFormController {
-  static const VALID_ALL = 0xffff;
-  static const VALID_USERNAME = 1;
-  static const VALID_PASSWORD = 1 << 1;
+  static const validAll = 0xffff;
+  static const validUsername = 1;
+  static const validPassword = 1 << 1;
+
+  SigninFormController() {
+    _isValid = validAll ^ 3;
+  }
+
   int _isValid = 0;
   String _username = '';
   String _password = '';
 
   final StreamController<dynamic> _controller = StreamController.broadcast();
-  Stream<dynamic> get _stream => _controller.stream;
 
-  SigninFormController() {
-    _isValid = VALID_ALL ^ 3;
-  }
+  Stream<dynamic> get _stream => _controller.stream;
 
   Stream<T> on<T>() {
     return _stream.where((event) => event is T).cast();
@@ -32,14 +34,14 @@ class SigninFormController {
     _username = value;
     // TODO: logic to validate username
     final valid = (_username != '');
-    _updateValidate(VALID_USERNAME, valid);
+    _updateValidate(validUsername, valid);
   }
 
   onPasswordChanged(value) {
     _password = value;
     // TODO: logic to validate password
     final valid = (_password != '');
-    _updateValidate(VALID_PASSWORD, valid);
+    _updateValidate(validPassword, valid);
   }
 
   _updateValidate(int field, bool valid) {
@@ -57,10 +59,10 @@ class SigninFormController {
         message: 'missing data',
       ));
 
-      if (_isValid == VALID_ALL) {
+      if (_isValid == validAll) {
         _controller.sink.add(SigninValidateEvent(
           status: EventStatus.success,
-          field: VALID_ALL,
+          field: validAll,
         ));
       }
     }
