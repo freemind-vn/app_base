@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-import 'package:app/src/features/user.dart';
+import 'package:app/user.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});

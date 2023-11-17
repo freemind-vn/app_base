@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:app/src/features/user.dart';
+import 'package:app/user.dart';
 
 class SignInController {
   final user = ValueNotifier<User?>(null);

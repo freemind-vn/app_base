@@ -1,4 +1,4 @@
-import 'package:app/src/features/user.dart';
+import 'package:app/user.dart';
 
 class SignInRepository {
   final service = UserService();

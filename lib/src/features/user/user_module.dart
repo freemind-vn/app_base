@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/src/features/user.dart';
+import 'package:app/user.dart';
 
 class UserModule extends Module {
   @override

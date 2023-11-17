@@ -6,22 +6,26 @@ index_generator:
     - "**.g.dart"
   # Define the paths of the folders in which to generate the index files
   indexes:
-    # Share
+    # Core
     - path: lib
-      include: [src/themes]
-      name: themes
-
-    # Modules
-    - path: lib
-      include: [src/features/*/*_module.dart]
-      name: modules
+      include: [src/core]
+      name: core
 
     # Features
-    - path: lib/src/features
-      include: [home]
+    - path: lib
+      include: [src/features/cart]
+      name: cart
+    - path: lib
+      include: [src/features/home]
       name: home
-    - path: lib/src/features
-      include: [user]
+    - path: lib
+      include: [src/features/order]
+      name: order
+    - path: lib
+      include: [src/features/product]
+      name: product
+    - path: lib
+      include: [src/features/user]
       name: user
 
     # Stories

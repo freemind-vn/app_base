@@ -1,7 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/modules.dart';
+import 'package:app/home.dart';
 import 'package:app/stories.dart';
+import 'package:app/user.dart';
 
 class AppModule extends Module {
   @override
