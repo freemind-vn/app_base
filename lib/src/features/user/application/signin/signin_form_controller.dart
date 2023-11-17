@@ -3,6 +3,12 @@ import 'dart:async';
 import 'package:app/core.dart';
 import 'signin_form_event.dart';
 
+extension FilterExtension on Stream<SigninValidateEvent> {
+  Stream<SigninValidateEvent> byField(int field) {
+    return where((event) => event.field == field);
+  }
+}
+
 class SigninFormController {
   static const VALID_ALL = 0xffff;
   static const VALID_USERNAME = 1;
@@ -37,25 +43,26 @@ class SigninFormController {
   }
 
   _updateValidate(int field, bool valid) {
-    // if flag turn on: turn off it
-    if (_isValid & field == field) {
-      _isValid ^= field;
-    }
-    if (valid) {
-      _isValid |= field;
-    }
-
-    _controller.sink.add(SigninValidateEvent(
-      status: valid ? EventStatus.success : EventStatus.error,
-      field: field,
-      message: 'missing data',
-    ));
-
-    if (_isValid == VALID_ALL) {
+    final currentState = (_isValid & field == field);
+    // check state and update if needed
+    if (valid != currentState) {
+      if (!valid) {
+        _isValid ^= field;
+      } else {
+        _isValid |= field;
+      }
       _controller.sink.add(SigninValidateEvent(
-        status: EventStatus.success,
-        field: VALID_ALL,
+        status: valid ? EventStatus.success : EventStatus.error,
+        field: field,
+        message: 'missing data',
       ));
+
+      if (_isValid == VALID_ALL) {
+        _controller.sink.add(SigninValidateEvent(
+          status: EventStatus.success,
+          field: VALID_ALL,
+        ));
+      }
     }
   }
 
