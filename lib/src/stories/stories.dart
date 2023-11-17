@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-class MaterialStory extends StatelessWidget {
-  const MaterialStory({super.key});
+import 'package:app/core.dart';
+import 'package:app/stories.dart';
+
+class Stories extends StatelessWidget {
+  const Stories({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +20,18 @@ class MaterialStory extends StatelessWidget {
         title: const Text('Story Book'),
       ),
       body: Storybook(
+        wrapperBuilder: (context, child) {
+          return MaterialApp(
+            theme: lightTheme,
+            darkTheme: dartkTheme,
+            // debugShowMaterialGrid: true,
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(body: Center(child: child)),
+          );
+        },
         stories: [
-          Story(
-            name: 'Buttons/OutlinedButton',
-            builder: (context) {
-              return OutlinedButton(
-                child: const Text('OutlinedButton'),
-                onPressed: () {},
-              );
-            },
-          )
+          ...materialStories,
+          ...userStories,
         ],
       ),
     );

@@ -36,7 +36,7 @@ class SignInForm extends StatelessWidget {
         ValueListenableBuilder(
           valueListenable: _isValid,
           builder: (context, value, child) {
-            return FilledButton(
+            return ElevatedButton(
               onPressed: value ? _onSubmit : null,
               child: const Text('Login'),
             );

@@ -12,6 +12,8 @@ class AppModule extends Module {
   void routes(r) {
     r.module('/', module: HomeModule());
     r.module('/', module: UserModule());
-    r.child('/stories', child: (context) => const MaterialStory());
+
+    r.module('/stories', module: StoriesModule());
+    // r.child('/stories', child: (context) => const Stories());
   }
 }
