@@ -12,6 +12,7 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _eventHandle(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -23,9 +24,46 @@ class SignInPage extends StatelessWidget {
       body: Center(
         child: MaxWidthBox(
           maxWidth: 480,
-          child: SignInForm(onSubmit: controller.login),
+          child: SignInForm(controller: controller.formController),
         ),
       ),
+    );
+  }
+
+  _eventHandle(BuildContext context) {
+    controller.stream.listen(
+      (event) {
+        showDialog(
+          context: context,
+          builder: (_) => _buildSuccessDialog(event.data),
+        );
+      },
+      onError: (message) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          _buildErrorSnackBar(message, context),
+        );
+      },
+    );
+  }
+
+  _buildErrorSnackBar(message, context) {
+    return SnackBar(
+      content: Text(message),
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      margin: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height - 100,
+        right: 20,
+        left: 20,
+      ),
+    );
+  }
+
+  _buildSuccessDialog(message) {
+    return SimpleDialog(
+      children: [Text(message)],
     );
   }
 }

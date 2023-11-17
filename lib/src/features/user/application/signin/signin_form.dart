@@ -1,65 +1,53 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/user.dart';
+
 class SignInForm extends StatelessWidget {
-  SignInForm({super.key, required this.onSubmit});
+  const SignInForm({super.key, required this.controller});
 
-  final Function(String username, String password) onSubmit;
-
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  final _isValid = ValueNotifier(false);
+  final SigninFormController controller;
 
   @override
   Widget build(BuildContext context) {
+    final stream = controller.stream.where(
+      (event) => event.type == SigninEventType.validate,
+    );
     return Column(
       children: [
         TextField(
-          controller: _usernameController,
-          onChanged: _onChange,
+          onChanged: controller.onPasswordChanged,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Username',
           ),
         ),
         const SizedBox(height: 6),
-        TextField(
-          controller: _passwordController,
-          onChanged: _onChange,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Password',
-          ),
-          obscureText: true,
-        ),
+        StreamBuilder(
+            stream: stream,
+            builder: (context, snapshot) {
+              return TextField(
+                onChanged: controller.onUsernameChanged,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Password',
+                  errorText: snapshot.hasError
+                      ? (snapshot.error as SigninEvent).data
+                      : null,
+                ),
+                obscureText: true,
+              );
+            }),
         const SizedBox(height: 6),
-        ValueListenableBuilder(
-          valueListenable: _isValid,
-          builder: (context, value, child) {
+        StreamBuilder(
+          stream: stream,
+          builder: (context, value) {
             return ElevatedButton(
-              onPressed: value ? _onSubmit : null,
+              onPressed: (!value.hasError) ? controller.onSubmit : null,
               child: const Text('Login'),
             );
           },
         ),
       ],
     );
-  }
-
-  _onChange(String? value) {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-    if (username.isEmpty || password.isEmpty) {
-      _isValid.value = false;
-      return;
-    }
-
-    _isValid.value = true;
-  }
-
-  _onSubmit() {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-    onSubmit(username, password);
   }
 }
