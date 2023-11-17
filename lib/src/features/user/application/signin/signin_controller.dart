@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:app/core.dart';
 import 'package:app/user.dart';
 
 class SignInController {
@@ -7,28 +8,23 @@ class SignInController {
   final formController = SigninFormController();
   final repository = SignInRepository();
 
-  final StreamController<SigninEvent> _controller =
+  final StreamController<AuthorizeEvent> _controller =
       StreamController.broadcast();
-  Stream<SigninEvent> get stream => _controller.stream;
+  Stream<AuthorizeEvent> get stream => _controller.stream;
 
   SignInController() {
-    _controller.onListen = () => formController.stream.listen(
-          (event) {
-            if (event.type == SigninEventType.authorize && event.data != null) {
-              login(event.data['username'], event.data['password']);
-            }
-          },
-        );
+    formController.on<SigninSubmitEvent>().listen((event) {
+      login(event.username, event.password);
+    });
   }
 
   login(String username, String password) {
     user = repository.signIn(username, password);
     if (user != null) {
       _controller.sink.add(
-        SigninEvent(
-          SigninEventType.authorize,
-          status: SigninStatus.success,
-          data: 'wellcome user: ${user!.username}',
+        AuthorizeEvent(
+          status: EventStatus.success,
+          message: 'wellcome ${user!.username}',
         ),
       );
     }

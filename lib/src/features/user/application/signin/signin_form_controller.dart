@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'signin_event.dart';
+import 'package:app/core.dart';
+import 'signin_form_event.dart';
 
 class SigninFormController {
   static const VALID_ALL = 0xffff;
@@ -10,63 +11,58 @@ class SigninFormController {
   String _username = '';
   String _password = '';
 
-  final StreamController<SigninEvent> _controller =
-      StreamController.broadcast();
-  Stream<SigninEvent> get stream => _controller.stream;
+  final StreamController<dynamic> _controller = StreamController.broadcast();
+  Stream<dynamic> get _stream => _controller.stream;
 
   SigninFormController() {
     _isValid = VALID_ALL ^ 3;
   }
 
+  Stream<T> on<T>() {
+    return _stream.where((event) => event is T).cast();
+  }
+
   onUsernameChanged(value) {
     _username = value;
-    // TODO: logic to validate Username
-    _validateInput(VALID_USERNAME);
+    // TODO: logic to validate username
+    final valid = (_username != '');
+    _updateValidate(VALID_USERNAME, valid);
   }
 
   onPasswordChanged(value) {
     _password = value;
-    // TODO: logic to validate Username
-    _validateInput(VALID_PASSWORD);
+    // TODO: logic to validate password
+    final valid = (_password != '');
+    _updateValidate(VALID_PASSWORD, valid);
   }
 
-  _validateInput(int input) {
+  _updateValidate(int field, bool valid) {
     // if flag turn on: turn off it
-    if (_isValid & input == input) {
-      _isValid ^= input;
+    if (_isValid & field == field) {
+      _isValid ^= field;
+    }
+    if (valid) {
+      _isValid |= field;
     }
 
-    switch (input) {
-      case VALID_USERNAME:
-        _isValid |= (_username != '' ? VALID_USERNAME : 0);
-        break;
-      case VALID_PASSWORD:
-        _isValid |= (_password != '' ? VALID_PASSWORD : 0);
-        break;
-    }
+    _controller.sink.add(SigninValidateEvent(
+      status: valid ? EventStatus.success : EventStatus.error,
+      field: field,
+      message: 'missing data',
+    ));
 
     if (_isValid == VALID_ALL) {
-      _controller.sink.add(SigninEvent(
-        SigninEventType.validate,
-        status: SigninStatus.success,
-      ));
-    } else {
-      _controller.sink.addError(SigninEvent(
-        SigninEventType.validate,
-        status: SigninStatus.error,
-        data: 'missing data',
+      _controller.sink.add(SigninValidateEvent(
+        status: EventStatus.success,
+        field: VALID_ALL,
       ));
     }
   }
 
   onSubmit() {
-    _controller.sink.add(SigninEvent(
-      SigninEventType.authorize,
-      status: SigninStatus.success,
-      data: {
-        'username': _username,
-        'password': _password,
-      },
+    _controller.sink.add(SigninSubmitEvent(
+      username: _username,
+      password: _password,
     ));
   }
 }

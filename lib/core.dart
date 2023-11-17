@@ -2,4 +2,5 @@
 
 library core;
 
+export 'src/core/applications/event.dart';
 export 'src/core/themes/material.dart';

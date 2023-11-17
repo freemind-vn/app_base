@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/core.dart';
 import 'package:app/user.dart';
 
 class SignInForm extends StatelessWidget {
@@ -9,40 +10,55 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = controller.stream.where(
-      (event) => event.type == SigninEventType.validate,
-    );
+    final stream = controller.on<SigninValidateEvent>();
     return Column(
       children: [
-        TextField(
-          onChanged: controller.onPasswordChanged,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Username',
+        StreamBuilder(
+          stream: stream.where(
+            (event) => event.field == SigninFormController.VALID_USERNAME,
           ),
+          builder: (context, snapshot) {
+            return TextField(
+              onChanged: controller.onUsernameChanged,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: 'Username',
+                errorText: snapshot.data?.status == EventStatus.error
+                    ? snapshot.data?.message
+                    : null,
+              ),
+            );
+          },
         ),
         const SizedBox(height: 6),
         StreamBuilder(
-            stream: stream,
-            builder: (context, snapshot) {
-              return TextField(
-                onChanged: controller.onUsernameChanged,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: 'Password',
-                  errorText: snapshot.hasError
-                      ? (snapshot.error as SigninEvent).data
-                      : null,
-                ),
-                obscureText: true,
-              );
-            }),
+          stream: stream.where(
+            (event) => event.field == SigninFormController.VALID_PASSWORD,
+          ),
+          builder: (context, snapshot) {
+            return TextField(
+              onChanged: controller.onPasswordChanged,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                hintText: 'Password',
+                errorText: snapshot.data?.status == EventStatus.error
+                    ? snapshot.data?.message
+                    : null,
+              ),
+              obscureText: true,
+            );
+          },
+        ),
         const SizedBox(height: 6),
         StreamBuilder(
           stream: stream,
-          builder: (context, value) {
+          builder: (context, snapshot) {
             return ElevatedButton(
-              onPressed: (!value.hasError) ? controller.onSubmit : null,
+              onPressed:
+                  (snapshot.data?.field == SigninFormController.VALID_ALL &&
+                          snapshot.data?.status == EventStatus.success)
+                      ? controller.onSubmit
+                      : null,
               child: const Text('Login'),
             );
           },

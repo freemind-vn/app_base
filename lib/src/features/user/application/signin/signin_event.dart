@@ -1,11 +1,8 @@
-enum SigninStatus { error, success }
+import 'package:app/core.dart';
 
-enum SigninEventType { validate, authorize }
+class AuthorizeEvent {
+  final EventStatus status;
+  final String message;
 
-class SigninEvent {
-  final SigninEventType type;
-  final SigninStatus status;
-  final dynamic data;
-
-  SigninEvent(this.type, {required this.status, this.data});
+  AuthorizeEvent({required this.status, required this.message});
 }

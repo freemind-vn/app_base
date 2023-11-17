@@ -35,7 +35,7 @@ class SignInPage extends StatelessWidget {
       (event) {
         showDialog(
           context: context,
-          builder: (_) => _buildSuccessDialog(event.data),
+          builder: (_) => _buildSuccessDialog(event.message),
         );
       },
       onError: (message) {
