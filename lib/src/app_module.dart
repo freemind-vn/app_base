@@ -10,10 +10,10 @@ class AppModule extends Module {
 
   @override
   void routes(r) {
-    r.module('/', module: HomeModule());
-    r.module('/', module: UserModule());
+    r.module(HomeRoute.root, module: HomeModule());
+    r.module(UserRoute.root, module: UserModule());
 
-    r.module('/stories', module: StoriesModule());
+    r.module(StoryRoute.root, module: StoriesModule());
     // r.child('/stories', child: (context) => const Stories());
   }
 }

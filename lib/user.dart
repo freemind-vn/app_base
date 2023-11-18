@@ -12,3 +12,4 @@ export 'src/features/user/data/user.dart';
 export 'src/features/user/data/user_service.dart';
 export 'src/features/user/domain/user_repository.dart';
 export 'src/features/user/user_module.dart';
+export 'src/features/user/user_route.dart';

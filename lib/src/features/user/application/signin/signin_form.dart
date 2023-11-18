@@ -14,7 +14,7 @@ class SignInForm extends StatelessWidget {
     return Column(
       children: [
         StreamBuilder(
-          stream: stream.byField(SigninFormController.validUsername),
+          stream: stream.byField(SigninFormField.username),
           builder: (context, snapshot) {
             return TextField(
               onChanged: controller.onUsernameChanged,
@@ -30,7 +30,7 @@ class SignInForm extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         StreamBuilder(
-          stream: stream.byField(SigninFormController.validPassword),
+          stream: stream.byField(SigninFormField.password),
           builder: (context, snapshot) {
             return TextField(
               onChanged: controller.onPasswordChanged,
@@ -50,11 +50,10 @@ class SignInForm extends StatelessWidget {
           stream: stream,
           builder: (context, snapshot) {
             return ElevatedButton(
-              onPressed:
-                  (snapshot.data?.field == SigninFormController.validAll &&
-                          snapshot.data?.status == EventStatus.success)
-                      ? controller.onSubmit
-                      : null,
+              onPressed: (snapshot.data?.field == SigninFormField.all &&
+                      snapshot.data?.status == EventStatus.success)
+                  ? controller.onSubmit
+                  : null,
               child: const Text('Login'),
             );
           },

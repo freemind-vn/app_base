@@ -1,8 +1,10 @@
 import 'package:app/core.dart';
 
+enum SigninFormField { username, password, all }
+
 class SigninValidateEvent {
   final EventStatus status;
-  final int? field;
+  final SigninFormField? field;
   final String? message;
 
   SigninValidateEvent({required this.status, this.field, this.message});

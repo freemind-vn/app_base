@@ -4,72 +4,63 @@ import 'package:app/core.dart';
 import 'signin_form_event.dart';
 
 extension FilterExtension on Stream<SigninValidateEvent> {
-  Stream<SigninValidateEvent> byField(int field) {
+  Stream<SigninValidateEvent> byField(SigninFormField field) {
     return where((event) => event.field == field);
   }
 }
 
-class SigninFormController {
-  static const validAll = 0xffff;
-  static const validUsername = 1;
-  static const validPassword = 1 << 1;
+class SigninFormController extends Controller {
+  static const _validAll = 0xffff;
 
   SigninFormController() {
-    _isValid = validAll ^ 3;
+    _isValid = _validAll & 0xffff << SigninFormField.all.index;
   }
 
   int _isValid = 0;
   String _username = '';
   String _password = '';
 
-  final StreamController<dynamic> _controller = StreamController.broadcast();
-
-  Stream<dynamic> get _stream => _controller.stream;
-
-  Stream<T> on<T>() {
-    return _stream.where((event) => event is T).cast();
-  }
-
   onUsernameChanged(value) {
     _username = value;
     // TODO: logic to validate username
     final valid = (_username != '');
-    _updateValidate(validUsername, valid);
+    _updateValidate(SigninFormField.username, valid);
   }
 
   onPasswordChanged(value) {
     _password = value;
     // TODO: logic to validate password
     final valid = (_password != '');
-    _updateValidate(validPassword, valid);
+    _updateValidate(SigninFormField.password, valid);
   }
 
-  _updateValidate(int field, bool valid) {
-    final currentState = (_isValid & field == field);
+  _updateValidate(SigninFormField field, bool valid) {
+    final fieldBit = 1 << field.index;
+    final currentState = (_isValid & fieldBit == fieldBit);
     // check state and update if needed
     if (valid != currentState) {
       if (!valid) {
-        _isValid ^= field;
+        _isValid ^= fieldBit;
       } else {
-        _isValid |= field;
+        _isValid |= fieldBit;
       }
-      _controller.sink.add(SigninValidateEvent(
+      send(SigninValidateEvent(
         status: valid ? EventStatus.success : EventStatus.error,
         field: field,
         message: 'missing data',
       ));
 
-      if (_isValid == validAll) {
-        _controller.sink.add(SigninValidateEvent(
+      if (_isValid == _validAll) {
+        send(SigninValidateEvent(
           status: EventStatus.success,
-          field: validAll,
+          field: SigninFormField.all,
         ));
       }
     }
   }
 
   onSubmit() {
-    _controller.sink.add(SigninSubmitEvent(
+    send(SigninSubmitEvent(
       username: _username,
       password: _password,
     ));
