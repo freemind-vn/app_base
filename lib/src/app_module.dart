@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:app/core.dart';
 import 'package:app/home.dart';
 import 'package:app/stories.dart';
 import 'package:app/user.dart';
@@ -10,10 +11,10 @@ class AppModule extends Module {
 
   @override
   void routes(r) {
-    r.module(HomeRoute.root, module: HomeModule());
-    r.module(UserRoute.root, module: UserModule());
+    r.moduleX(HomeRoute.root, module: HomeModule.new);
+    r.moduleX(UserRoute.root, module: UserModule.new);
 
-    r.module(StoryRoute.root, module: StoriesModule());
+    r.moduleX(StoryRoute.root, module: StoriesModule.new);
     // r.child('/stories', child: (context) => const Stories());
   }
 }

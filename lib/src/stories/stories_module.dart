@@ -3,16 +3,14 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:app/core.dart';
 import 'package:app/stories.dart';
 
-class StoriesModule extends Module {
+class StoriesModule extends ModuleExt {
+  StoriesModule(super.root);
+
   @override
   void binds(i) {}
 
   @override
   void routes(r) {
-    final route = RoutePath(StoryRoute.root);
-    r.child(
-      route.relative(StoryRoute.root),
-      child: (context) => const Stories(),
-    );
+    r.child(relative(StoryRoute.root), child: (context) => const Stories());
   }
 }
