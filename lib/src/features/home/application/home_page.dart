@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:app/cart.dart';
+import 'package:app/home.dart';
+import 'package:app/product.dart';
 import 'package:app/stories.dart';
 import 'package:app/user.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final controller = Modular.get<HomePageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class HomePage extends StatelessWidget {
         title: const Text('Sample App'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Center(child: Text('Hello, world!')),
           const SizedBox(height: 12),
@@ -32,6 +36,10 @@ class HomePage extends StatelessWidget {
           OutlinedButton(
             onPressed: () => Modular.to.pushNamed(CartRoute.root),
             child: const Text(CartRoute.root),
+          ),
+          HomeSearchField(controller: controller.searchFieldController),
+          ProductCategoryList(
+            controller: controller.productCategoryListController,
           ),
         ],
       ),
