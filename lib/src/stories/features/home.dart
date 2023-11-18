@@ -6,7 +6,7 @@ final homeStories = [
   Story(
     name: 'Home/SearchField',
     builder: (context) {
-      return const HomeSearchField();
+      return HomeSearchField(controller: HomeSearchFieldController());
     },
   ),
 ];

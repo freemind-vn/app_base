@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/home.dart';
+
 class HomeSearchField extends StatelessWidget {
-  const HomeSearchField({super.key});
+  const HomeSearchField({super.key, required this.controller});
+
+  final HomeSearchFieldController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +23,13 @@ class HomeSearchField extends StatelessWidget {
                 suffixIcon: const Icon(Icons.mic),
                 fillColor: Theme.of(context).colorScheme.background,
               ),
+              textInputAction: TextInputAction.go,
+              onSubmitted: controller.onSubmit,
             ),
           ),
           const SizedBox(width: 8),
           IconButton(
-            onPressed: () {},
+            onPressed: controller.onPressedCart,
             icon: Icon(
               Icons.shopping_bag,
               color: Theme.of(context).colorScheme.background,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:app/cart.dart';
 import 'package:app/stories.dart';
 import 'package:app/user.dart';
 
@@ -27,6 +28,10 @@ class HomePage extends StatelessWidget {
           OutlinedButton(
             onPressed: () => Modular.to.pushNamed(UserRoute.signin),
             child: const Text(UserRoute.signin),
+          ),
+          OutlinedButton(
+            onPressed: () => Modular.to.pushNamed(CartRoute.root),
+            child: const Text(CartRoute.root),
           ),
         ],
       ),

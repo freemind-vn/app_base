@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -12,6 +13,7 @@ class Controller<T> implements Disposable {
   }
 
   send(T event) {
+    log('send event: $event');
     _controller.sink.add(event);
   }
 
