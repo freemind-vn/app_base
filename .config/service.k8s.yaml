@@ -1,0 +1,79 @@
+deployment:
+  kind: Deployment
+  image: registry.gitlab.com/free-mind/hub/woocommerce-app
+  imagePullSecrets:
+    - registry-auth
+  pullPolicy: IfNotPresent
+  env:
+    DB_HOST: postgres:5432
+    ENV_FROM_CONFIG:
+      valueFrom:
+        configMapKeyRef:
+          key: user-interface.properties
+    SSH_KEY:
+      valueFrom:
+        secretKeyRef:
+          key: private
+          name: ssh-key
+  envFrom:
+    configMapRef:
+      name: sample-env-config
+  command: []
+  args: []
+  initContainers:
+    - command:
+        - ls
+        - -al
+        - /
+      image: docker.io/busy-box
+      name: busy-box
+  liveness: {}
+  readiness: {}
+service:
+  type: ClusterIP
+  ports:
+    grpc:
+      port: 8080
+    http:
+      port: 8081
+    proxy:
+      port: 8082
+    ws:
+      port: 8083
+ingress:
+  enabled: true
+  className: nginx
+  # annotations:
+  #   nginx.ingress.kubernetes.io/backend-protocol: GRPC
+  #   nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  domain: dev.freemind.vn
+  tls: freemind.vn
+  hosts:
+    grpc:
+      subdomain: woo
+      path: /
+      type: Prefix
+persistent:
+  enabled: false
+  volumes: {}
+podSecurityContext: {}
+securityContext: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+resource:
+  limits:
+    cpu: 0.2
+    memory: 256Mi
+  requests:
+    cpu: 0.1
+    memory: 128Mi
+autoscaling:
+  enabled: false
+  min: 1
+  max: 3
+  cpu: 0.5
+  memory: 0.5
+serviceAccount:
+  enabled: false
+  name: dev

@@ -42,3 +42,20 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# -----------------------------------------------------------------------------
+# gkgen
+# -----------------------------------------------------------------------------
+
+.chart/
+base/
+build/
+
+# Environments
+.env
+
+# Helm package
+*.tgz
+
+# Project
+lcov.info
