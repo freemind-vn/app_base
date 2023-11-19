@@ -1,3 +1,5 @@
+import 'package:flutter_modular/flutter_modular.dart';
+
 import 'package:app/core.dart';
 import 'package:app/user.dart';
 
@@ -22,6 +24,10 @@ class SignInController extends Controller<AuthorizeEvent> {
         ),
       );
     }
+  }
+
+  onOk() {
+    Modular.to.popAndPushNamed(UserRoute.wellcome, arguments: user);
   }
 
   @override

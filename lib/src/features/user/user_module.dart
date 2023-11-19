@@ -9,10 +9,18 @@ class UserModule extends ModuleExt {
   @override
   void binds(i) {
     i.add(SignInController.new);
+    i.add(WellcomeController.new);
   }
 
   @override
   void routes(r) {
-    r.child(relative(UserRoute.signin), child: (context) => SignInPage());
+    r.child(
+      relative(UserRoute.signin),
+      child: (context) => SignInPage(),
+    );
+    r.child(
+      relative(UserRoute.wellcome),
+      child: (context) => WellcomePage(),
+    );
   }
 }

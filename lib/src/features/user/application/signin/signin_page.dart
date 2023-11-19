@@ -62,8 +62,11 @@ class SignInPage extends StatelessWidget {
   }
 
   _buildSuccessDialog(message) {
-    return SimpleDialog(
-      children: [Text(message)],
+    return Material(
+      child: SimpleDialogOption(
+        onPressed: controller.onOk,
+        child: Center(child: Text(message)),
+      ),
     );
   }
 }
