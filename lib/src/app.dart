@@ -17,7 +17,13 @@ class App extends StatelessWidget {
       title: 'Example App',
       builder: (context, child) {
         return ResponsiveBreakpoints.builder(
-          child: child!,
+          child: MaxWidthBox(
+            maxWidth: 1280,
+            background: Container(
+              color: Theme.of(context).colorScheme.background,
+            ),
+            child: child!,
+          ),
           breakpoints: [
             const Breakpoint(start: 0, end: 450, name: MOBILE),
             const Breakpoint(start: 451, end: 800, name: TABLET),

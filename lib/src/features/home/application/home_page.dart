@@ -18,8 +18,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Sample App'),
+        centerTitle: true,
+        title: Image.network(
+          'https://trongkhuvuon.com/wp-content/uploads/2022/01/trongkhuvuonsmall.png',
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,6 +50,7 @@ class HomePage extends StatelessWidget {
             child: const Text(CartRoute.root),
           ),
           HomeSearchField(controller: controller.searchFieldController),
+          Carousel(),
           ProductCategoryList(
             controller: controller.productCategoryListController,
           ),

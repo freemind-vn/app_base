@@ -2,6 +2,7 @@
 
 library home;
 
+export 'src/features/home/application/carousel/carousel.dart';
 export 'src/features/home/application/home_page.dart';
 export 'src/features/home/application/home_page_controller.dart';
 export 'src/features/home/application/search_field/home_search_field.dart';
