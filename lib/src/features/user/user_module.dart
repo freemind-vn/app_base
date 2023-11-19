@@ -8,7 +8,7 @@ class UserModule extends ModuleExt {
 
   @override
   void binds(i) {
-    i.addInstance(SignInController());
+    i.add(SignInController.new);
     i.add(WellcomeController.new);
   }
 

@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             child: const Text(StoryRoute.root),
           ),
           OutlinedButton(
-            onPressed: userController.startSignin,
+            onPressed: () => Modular.to.pushNamed(UserRoute.signin),
             child: const Text(UserRoute.signin),
           ),
           OutlinedButton(

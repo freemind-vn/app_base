@@ -31,7 +31,7 @@ class SignInPage extends StatelessWidget {
   }
 
   _eventHandle(BuildContext context) {
-    controller.stream.listen(
+    controller.listen(
       (event) {
         showDialog(
           context: context,
