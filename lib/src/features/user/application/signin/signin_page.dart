@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import 'package:app/core.dart';
 import 'package:app/user.dart';
 
 class SignInPage extends StatelessWidget {
@@ -33,10 +34,21 @@ class SignInPage extends StatelessWidget {
   _eventHandle(BuildContext context) {
     controller.listen(
       (event) {
-        showDialog(
-          context: context,
-          builder: (_) => _buildSuccessDialog(event),
-        );
+        switch (event.status) {
+          case EventStatus.success:
+            showDialog(
+              context: context,
+              builder: (_) => _buildSuccessDialog(event),
+            );
+            break;
+          case EventStatus.error:
+            ScaffoldMessenger.of(context).showSnackBar(
+              _buildErrorSnackBar(event.message, context),
+            );
+            break;
+          default:
+            break;
+        }
       },
       onError: (message) {
         ScaffoldMessenger.of(context).showSnackBar(

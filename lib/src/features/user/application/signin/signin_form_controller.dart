@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:app/core.dart';
 import 'signin_form_event.dart';
 
-extension FilterExtension on Stream<SigninValidateEvent> {
+extension StreamSigninValidateEventExtension on Stream<SigninValidateEvent> {
   Stream<SigninValidateEvent> byField(SigninFormField field) {
     return where((event) => event.field == field);
   }

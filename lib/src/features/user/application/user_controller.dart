@@ -6,12 +6,10 @@ class UserController extends Controller<User> {
 
   UserController() {
     Controller.onNew<SignInController>(
-      (controller) => controller.listen(
+      (controller) => controller.byStatus(EventStatus.success).listen(
         (event) {
-          if (event.status == EventStatus.success) {
-            user = event.user;
-            send(user!);
-          }
+          user = event.user;
+          send(user!);
         },
       ),
     );
