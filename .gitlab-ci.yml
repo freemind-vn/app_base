@@ -1,0 +1,50 @@
+stages:
+  - test
+  - build
+  - deploy
+
+# # see usage of Namespaces at https://docs.gitlab.com/ee/user/group/#namespaces
+# variables:
+#   REGISTRY_GROUP_PROJECT: $CI_REGISTRY/root/gitlab-ci-shell-example
+
+# # see how to login at https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#using-the-gitlab-container-registry
+# before_script:
+#   - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
+
+test:
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  # the tag 'shell' advices only GitLab runners using this tag to pick up that job
+  tags:
+    - shell
+  script:
+    - make test
+    - make fmt
+    - make lint
+    - git diff --exit-code
+build-web:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - shell
+  script:
+    - make build-web
+oci:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - shell
+  script:
+    - make oci oci-push
+
+deploy:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  tags:
+    - shell
+  script:
+    - make restart
