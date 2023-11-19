@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:app/cart.dart';
+import 'package:app/core.dart';
 import 'package:app/home.dart';
 import 'package:app/product.dart';
 import 'package:app/stories.dart';
@@ -23,6 +24,8 @@ class HomePage extends StatelessWidget {
           'https://trongkhuvuon.com/wp-content/uploads/2022/01/trongkhuvuonsmall.png',
         ),
       ),
+      bottomNavigationBar:
+          BottomNav(controller: controller.bottomNavController),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
