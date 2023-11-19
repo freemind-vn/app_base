@@ -1,10 +1,7 @@
-import 'package:flutter_modular/flutter_modular.dart';
-
 import 'package:app/core.dart';
 import 'package:app/user.dart';
 
 class SignInController extends Controller<AuthorizeEvent> {
-  User? user;
   final formController = SigninFormController();
   final repository = SignInRepository();
 
@@ -15,19 +12,14 @@ class SignInController extends Controller<AuthorizeEvent> {
   }
 
   login(String username, String password) {
-    user = repository.signIn(username, password);
-    if (user != null) {
-      send(
-        AuthorizeEvent(
-          status: EventStatus.success,
-          message: 'wellcome ${user!.username}',
-        ),
-      );
-    }
-  }
-
-  onOk() {
-    Modular.to.popAndPushNamed(UserRoute.wellcome, arguments: user);
+    final user = repository.signIn(username, password);
+    send(
+      AuthorizeEvent(
+        status: EventStatus.success,
+        message: 'wellcome ${user.username}',
+        user: user,
+      ),
+    );
   }
 
   @override

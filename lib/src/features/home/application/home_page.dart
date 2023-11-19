@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final controller = Modular.get<HomePageController>();
+  final userController = Modular.get<UserController>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,23 @@ class HomePage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Center(child: Text('Hello, world!')),
+          StreamBuilder(
+              initialData: userController.user,
+              stream: userController.stream,
+              builder: (context, snapshot) {
+                return Center(
+                  child: Text(
+                    'Hello, ${snapshot.hasData ? snapshot.data!.username : 'world!'}',
+                  ),
+                );
+              }),
           const SizedBox(height: 12),
           OutlinedButton(
             onPressed: () => Modular.to.pushNamed(StoryRoute.root),
             child: const Text(StoryRoute.root),
           ),
           OutlinedButton(
-            onPressed: () => Modular.to.pushNamed(UserRoute.signin),
+            onPressed: userController.startSignin,
             child: const Text(UserRoute.signin),
           ),
           OutlinedButton(

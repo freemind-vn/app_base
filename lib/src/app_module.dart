@@ -8,7 +8,9 @@ import 'package:app/user.dart';
 
 class AppModule extends Module {
   @override
-  void binds(i) {}
+  void binds(i) {
+    i.addSingleton(UserController.new);
+  }
 
   @override
   void routes(r) {

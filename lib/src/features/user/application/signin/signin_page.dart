@@ -35,7 +35,7 @@ class SignInPage extends StatelessWidget {
       (event) {
         showDialog(
           context: context,
-          builder: (_) => _buildSuccessDialog(event.message),
+          builder: (_) => _buildSuccessDialog(event),
         );
       },
       onError: (message) {
@@ -61,11 +61,17 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  _buildSuccessDialog(message) {
+  _buildSuccessDialog(AuthorizeEvent event) {
     return Material(
       child: SimpleDialogOption(
-        onPressed: controller.onOk,
-        child: Center(child: Text(message)),
+        onPressed: () {
+          Modular.to.popUntil(ModalRoute.withName(UserRoute.signin));
+          Modular.to.popAndPushNamed(
+            UserRoute.wellcome,
+            arguments: event.user,
+          );
+        },
+        child: Center(child: Text(event.message)),
       ),
     );
   }
