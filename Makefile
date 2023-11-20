@@ -77,8 +77,8 @@ init:
 
 #: code formatting
 fmt:
-	dart pub global run import_sorter:main --no-comments
 	dart pub global run index_generator
+	dart pub global run import_sorter:main --no-comments
 	dart fix --apply
 	dart format --fix lib/src/
 

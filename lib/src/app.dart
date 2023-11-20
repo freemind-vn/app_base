@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'package:app/core.dart';
+import 'package:app/home.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -11,6 +12,7 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Modular.setInitialRoute(HomeRoute.root);
     return MaterialApp.router(
       theme: lightTheme,
       darkTheme: dartkTheme,
