@@ -12,12 +12,6 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Image.network(
-          'https://trongkhuvuon.com/wp-content/uploads/2022/01/trongkhuvuonsmall.png',
-        ),
-      ),
       bottomNavigationBar: BottomNav(controller: controller),
       body: const RouterOutlet(),
     );

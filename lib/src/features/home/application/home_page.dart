@@ -20,6 +20,11 @@ class HomePage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: Image.network(
+              'https://trongkhuvuon.com/wp-content/uploads/2022/01/trongkhuvuonsmall.png',
+            ),
+          ),
           StreamBuilder(
               initialData: userController.user,
               stream: userController.stream,

@@ -16,6 +16,7 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       theme: lightTheme,
       darkTheme: dartkTheme,
+      debugShowCheckedModeBanner: false,
       title: 'Example App',
       builder: (context, child) {
         return ResponsiveBreakpoints.builder(
