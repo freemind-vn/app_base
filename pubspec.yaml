@@ -44,6 +44,7 @@ dependencies:
   storybook_flutter: ^0.14.0
 
   # Features
+  wordpress_client: ^8.3.3
 
 dev_dependencies:
   flutter_test:

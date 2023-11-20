@@ -13,11 +13,17 @@ index_generator:
 
     # Features
     - path: lib
+      include: [src/features/base]
+      name: base
+    - path: lib
       include: [src/features/cart]
       name: cart
     - path: lib
       include: [src/features/home]
       name: home
+    - path: lib
+      include: [src/features/post]
+      name: post
     - path: lib
       include: [src/features/order]
       name: order
