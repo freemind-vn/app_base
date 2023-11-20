@@ -9,13 +9,13 @@ import 'package:app/stories.dart';
 import 'package:app/user.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
-
-  final controller = Modular.get<HomePageController>();
-  final userController = Modular.get<UserController>();
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Modular.get<HomePageController>();
+    final userController = Modular.get<UserController>();
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

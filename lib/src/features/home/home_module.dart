@@ -15,6 +15,6 @@ class HomeModule extends ModuleExt {
 
   @override
   void routes(r) {
-    r.child(relative(HomeRoute.root), child: (context) => HomePage());
+    r.child(relative(HomeRoute.root), child: (context) => const HomePage());
   }
 }

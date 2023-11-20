@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:app/core.dart';
+import 'package:app/home.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key, required this.controller});

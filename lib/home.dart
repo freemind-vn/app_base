@@ -2,6 +2,8 @@
 
 library home;
 
+export 'src/features/home/application/bottom_nav/bottom_nav.dart';
+export 'src/features/home/application/bottom_nav/bottom_nav_controller.dart';
 export 'src/features/home/application/carousel/carousel.dart';
 export 'src/features/home/application/home_page.dart';
 export 'src/features/home/application/home_page_controller.dart';
