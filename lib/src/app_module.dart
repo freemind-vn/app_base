@@ -10,7 +10,7 @@ class AppModule extends Module {
   @override
   void binds(i) {
     i.addSingleton(UserController.new);
-    i.addSingleton(BottomNavController.new);
+    i.addSingleton(NavigationController<BottomNavDestination>.new);
     i.addSingleton(HomePageController.new);
   }
 

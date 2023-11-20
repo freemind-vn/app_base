@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:app/core.dart';
 import 'package:app/home.dart';
 
 /// The main page layout which has a navigation bar
@@ -11,16 +12,20 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Modular.get<BottomNavController>();
+    final controller =
+        Modular.get<NavigationController<BottomNavDestination>>();
     return Scaffold(
-      bottomNavigationBar: BottomNav(controller: controller),
+      bottomNavigationBar: BottomNavigation(
+        controller: controller,
+        destinations: destinations,
+      ),
       body: StreamBuilder(
         initialData: 0,
         stream: controller.stream,
         builder: (context, snapshot) {
           return IndexedStack(
             index: snapshot.data ?? 0,
-            children: controller.routes,
+            children: controller.getListWidget(),
           );
         },
       ),
