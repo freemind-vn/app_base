@@ -2,6 +2,10 @@
 
 library user;
 
+export 'src/features/user/application/profile/app_settings.dart';
+export 'src/features/user/application/profile/app_settings_controller.dart';
+export 'src/features/user/application/profile/profile_page.dart';
+export 'src/features/user/application/profile/profile_page_controller.dart';
 export 'src/features/user/application/signin/signin_controller.dart';
 export 'src/features/user/application/signin/signin_event.dart';
 export 'src/features/user/application/signin/signin_form.dart';

@@ -31,6 +31,10 @@ class AppModule extends Module {
       ChildRoute(
         CartRoute.root,
         child: (context) => const CartPage(),
+      ),
+      ChildRoute(
+        UserRoute.profile,
+        child: (context) => const ProfilePage(),
       )
     ]);
   }
