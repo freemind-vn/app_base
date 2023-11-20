@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/cart.dart';
 import 'package:app/home.dart';
-import 'package:app/user.dart';
 
 /// The main page layout which has a navigation bar
 /// to navigate to other main pages.
@@ -17,17 +15,12 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomNav(controller: controller),
       body: StreamBuilder(
+        initialData: 0,
         stream: controller.stream,
         builder: (context, snapshot) {
           return IndexedStack(
             index: snapshot.data ?? 0,
-            children: const [
-              HomePage(),
-              Text('News'),
-              Text('Notifications'),
-              CartPage(),
-              ProfilePage(),
-            ],
+            children: controller.routes,
           );
         },
       ),

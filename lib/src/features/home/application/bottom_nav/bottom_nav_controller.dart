@@ -1,16 +1,27 @@
+import 'package:flutter/material.dart';
+
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/cart.dart';
 import 'package:app/core.dart';
-import 'package:app/home.dart';
-import 'package:app/user.dart';
+
+extension NavigationDestinationExtension on NavigationDestination {
+  register(Widget destination) {
+    final controller = Modular.get<BottomNavController>();
+    controller.registerDestination(destination);
+    return this;
+  }
+}
 
 class BottomNavController extends Controller<int> {
   int index = 0;
+  final List<Widget> routes = [];
+
+  registerDestination(Widget item) {
+    routes.add(item);
+  }
 
   onDestinationSelected(int value) {
     index = value;
-    Modular.to.pushReplacementNamed(_routes[index]);
     send(index);
 
     // if (index == 0) {
@@ -20,11 +31,3 @@ class BottomNavController extends Controller<int> {
     // }
   }
 }
-
-const _routes = [
-  HomeRoute.root,
-  HomeRoute.root,
-  HomeRoute.root,
-  CartRoute.root,
-  UserRoute.profile,
-];
