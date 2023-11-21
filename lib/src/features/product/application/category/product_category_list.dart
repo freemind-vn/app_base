@@ -29,31 +29,9 @@ class ProductCategoryList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: List.generate(
                   snapshot.data!.items.length,
-                  (index) {
-                    final item = snapshot.data!.items[index];
-                    return FilledButton.tonal(
-                      onPressed: () => controller.listProduct(item.id),
-                      child: Row(
-                        children: [
-                          Text(item.name),
-                          StreamBuilder(
-                              stream: controller
-                                  .on<ListProductEvent>()
-                                  .byCategory(item.id),
-                              initialData: null,
-                              builder: (context, snapshot) {
-                                print('${snapshot.data?.status}');
-                                if (!snapshot.hasData ||
-                                    snapshot.data!.status !=
-                                        EventStatus.processing) {
-                                  return const SizedBox();
-                                }
-                                return const CircularProgressIndicator();
-                              }),
-                        ],
-                      ),
-                    );
-                  },
+                  (index) => buildCategory(
+                    snapshot.data!.items[index],
+                  ),
                 ),
               ),
               StreamBuilder(
@@ -66,13 +44,7 @@ class ProductCategoryList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(
                       snapshot.data!.items.length,
-                      (index) {
-                        final item = snapshot.data!.items[index];
-                        return FilledButton.tonal(
-                          onPressed: null,
-                          child: Text(item.name),
-                        );
-                      },
+                      (index) => buildProduct(snapshot.data!.items[index]),
                     ),
                   );
                 },
@@ -81,6 +53,35 @@ class ProductCategoryList extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  buildCategory(Category item) {
+    final stream = controller.on<ListProductEvent>().byCategory(item.id);
+    return FilledButton.tonal(
+      onPressed: () => controller.listProduct(item.id),
+      child: Row(
+        children: [
+          Text(item.name),
+          StreamBuilder(
+            stream: stream,
+            initialData: null,
+            builder: (context, snapshot) {
+              if (snapshot.data?.status == EventStatus.processing) {
+                return const CircularProgressIndicator();
+              }
+              return const SizedBox();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  buildProduct(Product item) {
+    return FilledButton.tonal(
+      onPressed: null,
+      child: Text(item.name),
     );
   }
 }
