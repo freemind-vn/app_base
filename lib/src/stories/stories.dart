@@ -32,6 +32,7 @@ class Stories extends StatelessWidget {
         stories: [
           ...materialStories,
           ...homeStories,
+          ...productStories,
           ...userStories,
         ],
         initialStory: 'Home/SearchField',

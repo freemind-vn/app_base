@@ -39,11 +39,13 @@ ifeq ($(PLATFORM), darwin)
 endif
 
 # Flutter build flags
-SERVICE_HOST	?= happymind.freemind.vn
-SERVICE_PORT	?= 443
+SERVICE_HOST	?= wp.dev.freemind.vn
+SERVICE_SCHEME	?= https
+SERVICE_KEY		?= ck_035f1b119915354512de933ed10a17b7b9a1dbba
+SERVICE_SECRET	?= cs_327a6d29343442bae049d1170797b3bcc7b79b79
 
 F_FLAGS			?= --dart-define=SERVICE_HOST=$(SERVICE_HOST) \
-	--dart-define SERVICE_PORT=$(SERVICE_PORT) \
+	--dart-define SERVICE_SCHEME=$(SERVICE_SCHEME) \
 	--dart-define VERSION='$(VERSION)' \
 	--dart-define BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
 	--dart-define HASH=$(shell git rev-parse --short HEAD)

@@ -3,6 +3,7 @@
 library stories;
 
 export 'src/stories/features/home.dart';
+export 'src/stories/features/product.dart';
 export 'src/stories/features/user.dart';
 export 'src/stories/material/buttons.dart';
 export 'src/stories/material/material_stories.dart';

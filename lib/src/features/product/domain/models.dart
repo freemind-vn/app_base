@@ -13,12 +13,31 @@ class Category {
 }
 
 class Product {
-  Product(this.id, this.name);
+  Product({
+    this.id,
+    this.name,
+    this.categories = const [],
+    this.slug,
+    this.price,
+    this.regularPrice,
+    this.salePrice,
+    this.description,
+    this.shortDescription,
+  });
 
-  final int id;
-  final String name;
+  final int? id;
+  final String? name;
+  final List<String> categories;
+
+  final String? slug;
+  final double? price;
+  final double? regularPrice;
+  final double? salePrice;
+  final String? description;
+  final String? shortDescription;
+
   static Product fromRaw(woo.Product product) => Product(
-        product.id!,
-        product.name!,
+        id: product.id,
+        name: product.name!,
       );
 }
