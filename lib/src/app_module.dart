@@ -1,14 +1,15 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:app/app.dart';
 import 'package:app/core.dart';
 import 'package:app/home.dart';
 import 'package:app/stories.dart';
 import 'package:app/user.dart';
-import 'main_page.dart';
 
 class AppModule extends Module {
   @override
   void binds(i) {
+    i.addSingleton(AppController.new);
     i.addSingleton(UserController.new);
     i.addSingleton(NavigationController<BottomNavDestination>.new);
     i.addSingleton(HomePageController.new);

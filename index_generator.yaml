@@ -11,6 +11,11 @@ index_generator:
       include: [src/core]
       name: core
 
+    # App:
+    - path: lib
+      include: [src/*.dart]
+      name: app
+
     # Features
     - path: lib
       include: [src/features/base]
