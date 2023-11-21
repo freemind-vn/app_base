@@ -1,7 +1,9 @@
 import 'package:wordpress_client/wordpress_client.dart';
 
-const serviceScheme =
-    String.fromEnvironment('SERVICE_SCHEME', defaultValue: 'https');
+const serviceScheme = String.fromEnvironment(
+  'SERVICE_SCHEME',
+  defaultValue: 'https',
+);
 const serviceHost = String.fromEnvironment(
   'SERVICE_HOST',
   defaultValue: 'wp.dev.freemind.vn',

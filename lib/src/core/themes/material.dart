@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:app/core.dart';
 import 'color_schemes.g.dart';
 
+// define name for custom style
+const themeStyle1 = 'style1';
+const themeStyle2 = 'style2';
+
 final lightTheme = ThemeData(
   useMaterial3: true,
   colorScheme: lightColorScheme,
@@ -16,8 +20,9 @@ final lightTheme = ThemeData(
     ),
   ),
   extensions: [
-    ButtonStyleExt<Abc>(
-      ButtonStyle(
+    CustomStyle(
+      name: themeStyle1,
+      style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.blue),
       ),
     ),
@@ -28,18 +33,17 @@ final dartkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: darkColorScheme,
   extensions: [
-    ButtonStyleExt<Abc>(
-      ButtonStyle(
+    CustomStyle(
+      name: themeStyle1,
+      style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.green),
       ),
     ),
-    ButtonStyleExt(
-      ButtonStyle(
+    CustomStyle(
+      name: themeStyle2,
+      style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(Colors.red),
       ),
     )
   ],
 );
-
-// each class for each custom style
-abstract class Abc {}
