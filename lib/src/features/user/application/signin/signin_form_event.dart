@@ -4,9 +4,8 @@ enum SigninFormField { username, password, all }
 
 class SigninValidateEvent extends BaseEvent {
   final SigninFormField? field;
-  final String? message;
 
-  SigninValidateEvent({required super.status, this.field, this.message});
+  SigninValidateEvent({required super.status, this.field, super.message});
 }
 
 class SigninSubmitEvent {

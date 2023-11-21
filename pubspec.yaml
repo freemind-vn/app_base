@@ -45,6 +45,7 @@ dependencies:
 
   # Features
   wordpress_client: ^8.3.3
+  woo_api: ^0.0.4
 
 dev_dependencies:
   flutter_test:

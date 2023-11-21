@@ -1,12 +1,36 @@
+import 'package:app/base.dart';
 import 'package:app/product.dart';
 
 class ProductCategoryRepository {
-  List<Category> list() {
-    // Call data layer / sdk, then
-    return [
-      Category(1, 'Bùn khoáng'),
-      Category(2, 'Mỹ phẩm'),
-      Category(3, 'Tinh dầu'),
-    ];
+  Future<List<Category>> list() async {
+    return woo
+        .getProductCategories()
+        .then(
+          (value) => Future.value(
+            value.map((e) => Category(e.id!, e.name!)).toList(),
+          ),
+        )
+        .onError(
+      (error, stackTrace) {
+        print(error);
+        return [];
+      },
+    );
+  }
+
+  Future<List<Product>> listProduct(int category) {
+    return woo
+        .getAllProducts(category: category.toString())
+        .then(
+          (value) => Future.value(
+            value.map((e) => Product(e.id!, e.name!)).toList(),
+          ),
+        )
+        .onError(
+      (error, stackTrace) {
+        print(error);
+        return [];
+      },
+    );
   }
 }

@@ -5,7 +5,7 @@ import 'package:app/post.dart';
 
 class PostAPI implements PostRepository {
   @override
-  Future<List<Post>> list(ListPostRequest req) async {
+  Future<List<Post>> list(ListRequest req) async {
     final res = await wp.posts.list(wpsdk.ListPostRequest(
       page: req.page,
       perPage: req.perPage,

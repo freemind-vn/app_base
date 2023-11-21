@@ -15,10 +15,3 @@ class Post {
   final String? content;
   final String? media; // wp:featuredmedia[0]
 }
-
-class ListPostRequest {
-  ListPostRequest({this.page = 1, this.perPage = 10});
-
-  final int page;
-  final int perPage;
-}

@@ -83,7 +83,7 @@ class SignInPage extends StatelessWidget {
             arguments: event.user,
           );
         },
-        child: Center(child: Text(event.message)),
+        child: Center(child: Text(event.message!)),
       ),
     );
   }

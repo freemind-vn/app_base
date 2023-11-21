@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/base.dart';
 import 'package:app/product.dart';
 
 class ProductCategoryList extends StatelessWidget {
@@ -13,24 +14,51 @@ class ProductCategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = controller.on<ProductCategoryListEvent>();
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: StreamBuilder(
-        stream: stream,
+        stream: controller.on<ListEvent<Category>>(),
         builder: (context, snapshot) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: List.generate(
-              snapshot.data?.items.length ?? 0,
-              (index) {
-                final item = snapshot.data?.items[index];
-                return FilledButton.tonal(
-                  onPressed: () {},
-                  child: Text(item?.name ?? ''),
-                );
-              },
-            ),
+          if (!snapshot.hasData) {
+            return const SizedBox();
+          }
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List.generate(
+                  snapshot.data!.items.length,
+                  (index) {
+                    final item = snapshot.data!.items[index];
+                    return FilledButton.tonal(
+                      onPressed: () => controller.listProduct(item.id),
+                      child: Text(item.name),
+                    );
+                  },
+                ),
+              ),
+              StreamBuilder(
+                stream: controller.on<ListEvent<Product>>(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: List.generate(
+                      snapshot.data!.items.length,
+                      (index) {
+                        final item = snapshot.data!.items[index];
+                        return FilledButton.tonal(
+                          onPressed: null,
+                          child: Text(item.name),
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
+            ],
           );
         },
       ),
