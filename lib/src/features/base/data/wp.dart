@@ -10,6 +10,6 @@ const serviceHost = String.fromEnvironment(
 );
 
 final wp = WordpressClient(
-  baseUrl: Uri.parse('$serviceScheme://$serviceHost'),
+  baseUrl: Uri.parse('$serviceScheme://$serviceHost/wp-json/wp/v2'),
   bootstrapper: (b) => b.withDebugMode(false).build(),
-);
+)..initialize();

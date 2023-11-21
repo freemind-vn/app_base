@@ -23,7 +23,7 @@ class App extends StatelessWidget {
           child: MaxWidthBox(
             maxWidth: 1280,
             background: Container(
-              color: Theme.of(context).colorScheme.background,
+              color: context.theme.colorScheme.background,
             ),
             child: child!,
           ),

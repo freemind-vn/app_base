@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/core.dart';
+
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
 
@@ -8,7 +10,8 @@ class ProductItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).dividerColor)),
+        border: Border.all(color: context.theme.dividerColor),
+      ),
       child: Column(
         children: [
           Image.network(
@@ -16,20 +19,18 @@ class ProductItem extends StatelessWidget {
           ),
           Text(
             'Hộp viên uống GABA',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: context.theme.textTheme.titleLarge,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '490,000đ',
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: context.theme.textTheme.headlineMedium,
               ),
               Text(
                 '490,000đ',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
+                style: context.theme.textTheme.titleMedium
                     ?.apply(decoration: TextDecoration.lineThrough),
               ),
             ],
