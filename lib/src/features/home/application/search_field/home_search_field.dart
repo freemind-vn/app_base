@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/core.dart';
 import 'package:app/home.dart';
 
 class HomeSearchField extends StatelessWidget {
@@ -10,7 +11,7 @@ class HomeSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).primaryColorDark,
+      color: context.theme.primaryColorDark,
       padding: const EdgeInsets.only(left: 16, right: 4, top: 16, bottom: 16),
       child: Row(
         children: [
@@ -21,7 +22,7 @@ class HomeSearchField extends StatelessWidget {
                 filled: true,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: const Icon(Icons.mic),
-                fillColor: Theme.of(context).colorScheme.background,
+                fillColor: context.theme.colorScheme.background,
               ),
               textInputAction: TextInputAction.go,
               onSubmitted: controller.onSubmit,
@@ -32,7 +33,7 @@ class HomeSearchField extends StatelessWidget {
             onPressed: controller.onPressedCart,
             icon: Icon(
               Icons.shopping_bag,
-              color: Theme.of(context).colorScheme.background,
+              color: context.theme.colorScheme.background,
             ),
           ),
         ],

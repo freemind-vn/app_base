@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:app/cart.dart';
+import 'package:app/core.dart';
 import 'package:app/home.dart';
 import 'package:app/product.dart';
 import 'package:app/stories.dart';
@@ -15,7 +16,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Modular.get<HomePageController>();
     final userController = Modular.get<UserController>();
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -39,7 +39,10 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             OutlinedButton(
               onPressed: () => Modular.to.pushNamed(StoryRoute.root),
-              child: const Text(StoryRoute.root),
+              style: context.theme.extension<ButtonStyleExt<Abc>>()?.style,
+              child: const Text(
+                StoryRoute.root,
+              ),
             ),
             OutlinedButton(
               onPressed: () => Modular.to.pushNamed(UserRoute.signin),
