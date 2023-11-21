@@ -6,13 +6,28 @@ class ProductCategoryListController extends Controller {
   final repository = ProductCategoryRepository();
 
   list() async {
-    final categories = await repository.list();
-    send(ListEvent(items: categories));
+    try {
+      final categories = await repository.list();
+      send(ListEvent(items: categories));
+    } catch (error) {
+      send(ListEvent<Category>(
+        status: EventStatus.error,
+        message: error.toString(),
+      ));
+    }
   }
 
   listProduct(int category) async {
     send(ListProductEvent(category, status: EventStatus.processing));
-    final products = await repository.listProduct(category);
-    send(ListProductEvent(category, items: products));
+    try {
+      final products = await repository.listProduct(category);
+      send(ListProductEvent(category, items: products));
+    } catch (error) {
+      send(ListProductEvent(
+        category,
+        status: EventStatus.error,
+        message: error.toString(),
+      ));
+    }
   }
 }
