@@ -81,7 +81,7 @@ class ProductCategoryList extends StatelessWidget {
   buildProduct(Product item) {
     return FilledButton.tonal(
       onPressed: null,
-      child: Text(item.name ?? ''),
+      child: Text(item.name),
     );
   }
 }
