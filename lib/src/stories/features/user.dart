@@ -6,7 +6,7 @@ final userStories = [
   Story(
     name: 'User/LoginForm',
     builder: (context) {
-      return SignInForm(controller: SigninFormController());
+      return SignInForm();
     },
   ),
 ];

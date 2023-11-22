@@ -25,7 +25,7 @@ class SignInPage extends StatelessWidget {
       body: Center(
         child: MaxWidthBox(
           maxWidth: 480,
-          child: SignInForm(controller: controller.formController),
+          child: SignInForm(onSubmit: controller.login),
         ),
       ),
     );
