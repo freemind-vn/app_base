@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
 import 'package:app/core.dart';
 
-enum SigninFormField { username, password, agree }
+enum SigninFormField { username, phone, password, agree }
 
 class SignInForm extends StatelessWidget {
   SignInForm({super.key, FormController? controller, this.onSubmit}) {
@@ -37,6 +39,36 @@ class SignInForm extends StatelessWidget {
                   hintText: 'Username',
                   errorText: snapshot.data?.message,
                 ),
+              );
+            },
+          ),
+          const SizedBox(height: 6),
+          StreamBuilder(
+            stream: stream.byField(SigninFormField.phone),
+            builder: (context, snapshot) {
+              final input = controller.register<String>(
+                SigninFormField.phone,
+                FormInput(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'required';
+                    }
+                    return null;
+                  },
+                  inputFormatters: [
+                    MaskTextInputFormatter(mask: '+# (###) ###-##-##'),
+                  ],
+                ),
+              );
+              return TextFormField(
+                onChanged: input.onChanged,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  hintText: 'Phone',
+                  errorText: snapshot.data?.message,
+                ),
+                keyboardType: TextInputType.phone,
+                inputFormatters: input.inputFormatters,
               );
             },
           ),
@@ -101,10 +133,20 @@ class SignInForm extends StatelessWidget {
 
   _onSubmit() {
     if (controller.isValid(null)) {
+      print(controller.getInput(SigninFormField.phone)?.getRawValue());
       onSubmit?.call(
         controller.getInput(SigninFormField.username)?.value,
         controller.getInput(SigninFormField.password)?.value,
       );
     }
+  }
+}
+
+extension FormInputExt on FormInput {
+  getRawValue() {
+    final formatter = inputFormatters
+            ?.firstWhere((element) => element is MaskTextInputFormatter)
+        as MaskTextInputFormatter?;
+    return formatter?.getUnmaskedText() ?? value;
   }
 }
