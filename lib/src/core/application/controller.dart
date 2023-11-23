@@ -52,7 +52,7 @@ abstract class Controller<T> implements Disposable {
     return _controller.stream.where((event) => event is X).cast();
   }
 
-  send(T event) {
+  void send(T event) {
     log('send event: $event');
     _controller.sink.add(event);
   }
