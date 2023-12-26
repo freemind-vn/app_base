@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:app_base/core.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'package:app/app.dart';
 import 'package:app/home.dart';
+import 'package:app/theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

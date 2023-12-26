@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:app/home.dart';
+import 'package:app/theme.dart';
 
 class HomeSearchField extends StatelessWidget {
   const HomeSearchField({super.key, required this.controller});

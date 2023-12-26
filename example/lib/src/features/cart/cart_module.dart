@@ -2,7 +2,7 @@ import 'package:app_base/core.dart';
 
 import 'package:app/cart.dart';
 
-class CartModule extends ModuleExt {
+class CartModule extends Module {
   CartModule(super.root);
 
   @override

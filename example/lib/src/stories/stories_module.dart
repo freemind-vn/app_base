@@ -2,7 +2,7 @@ import 'package:app_base/core.dart';
 
 import 'package:app/stories.dart';
 
-class StoriesModule extends ModuleExt {
+class StoriesModule extends Module {
   StoriesModule(super.root);
 
   @override

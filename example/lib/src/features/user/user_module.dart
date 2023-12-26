@@ -2,7 +2,7 @@ import 'package:app_base/core.dart';
 
 import 'package:app/user.dart';
 
-class UserModule extends ModuleExt {
+class UserModule extends Module {
   UserModule(super.root);
 
   @override

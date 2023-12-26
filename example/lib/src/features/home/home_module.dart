@@ -3,7 +3,7 @@ import 'package:app_base/core.dart';
 import 'package:app/home.dart';
 import 'package:app/user.dart';
 
-class HomeModule extends ModuleExt {
+class HomeModule extends Module {
   HomeModule(super.root);
 
   @override

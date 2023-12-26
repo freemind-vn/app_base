@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:app_base/core.dart';
@@ -132,8 +134,8 @@ class SignInForm extends StatelessWidget {
         controller.getInput(SigninFormField.username)!.value,
         controller.getInput(SigninFormField.password)!.value,
       );
-      print(controller.getInput(SigninFormField.phone)!.value);
-      print(controller.getInput(SigninFormField.phone)!.rawValue);
+      log(controller.getInput(SigninFormField.phone)!.value);
+      log(controller.getInput(SigninFormField.phone)!.rawValue);
     }
   }
 }

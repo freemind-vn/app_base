@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'color_schemes.g.dart';
+import 'custom_style.dart';
 
 // define name for custom style
 const themeStyle1 = 'style1';

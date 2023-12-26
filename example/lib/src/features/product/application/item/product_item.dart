@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:app/theme.dart';
+
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
 
