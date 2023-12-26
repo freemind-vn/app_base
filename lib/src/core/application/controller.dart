@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:app/core.dart';
+import 'package:app_base/core.dart';
 
 extension ControllerBaseEventExtension<T extends BaseEvent> on Controller<T> {
   Stream<T> byStatus(EventStatus status) {

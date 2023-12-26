@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import 'package:app/core.dart';
+import 'package:app_base/core.dart';
 
 class FormFieldController<T> extends Controller<FormFieldEvent> {
   T? value;

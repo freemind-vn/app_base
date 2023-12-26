@@ -7,50 +7,10 @@
 # Environments
 -include .env
 
-define get_config
-$(shell yq -r ".$1" .config/service.base.yaml)
-endef
 
 define get_pubspec
 $(shell yq -r ".$1" pubspec.yaml)
 endef
-
-# Service
-NAME			= $(call get_config,name)
-VERSION			= $(call get_pubspec,version)
-DESCRIPTION		= $(call get_pubspec,description)
-ARCH			?= amd64
-
-# Registry
-REGISTRY			?= registry.gitlab.com
-REGISTRY_REPO		?= free-mind/hub
-DOCKERFILE			?= Dockerfile
-
-# Override the image & the helm package names
-RELEASE_NAME		= $(NAME)
-
-DEPLOYMENT_KIND		?= $(call get_yaml,deployment.kind,k8s)
-HELM_REPO			?= freemind
-HELM_NAMESPACE		?= dev
-
-# Default platform
-PLATFORM		?= $(shell uname | tr A-Z a-z)
-
-ifeq ($(PLATFORM), darwin)
-	PLATFORM	= macos
-endif
-
-# Flutter build flags
-SERVICE_HOST	?= wp.dev.freemind.vn
-SERVICE_SCHEME	?= https
-SERVICE_KEY		?= ck_035f1b119915354512de933ed10a17b7b9a1dbba
-SERVICE_SECRET	?= cs_327a6d29343442bae049d1170797b3bcc7b79b79
-
-F_FLAGS			?= --dart-define=SERVICE_HOST=$(SERVICE_HOST) \
-	--dart-define SERVICE_SCHEME=$(SERVICE_SCHEME) \
-	--dart-define VERSION='$(VERSION)' \
-	--dart-define BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
-	--dart-define HASH=$(shell git rev-parse --short HEAD)
 
 #: list all targets
 help:
@@ -63,7 +23,6 @@ help:
 #: remove untracked files from the working tree
 clean:
 #	git clean -fdx
-	gkgen clean $(arg)
 	flutter clean
 
 # -----------------------------------------------------------------------------
@@ -74,10 +33,7 @@ clean:
 init:
 	dart pub global activate dartdoc
 	dart pub global activate index_generator
-	dart pub global activate arb_excel
 	dart pub global activate import_sorter
-	dart pub global activate protoc_plugin
-	dart pub global activate flutterfire_cli
 
 #: code formatting
 fmt:
@@ -109,33 +65,21 @@ doc:
 test:
 	flutter test --coverage  --coverage-path test/lcov.info $(F_FLAGS)
 
+#: build the package
+publish:
+	flutter pub publish --dry-run
+
+# -----------------------------------------------------------------------------
+# Example
+# -----------------------------------------------------------------------------
+
 #: run your Flutter app on $(PLATFORM)
 run:
-	flutter run -d $(PLATFORM) $(F_FLAGS)
+	cd example; make run;
 
 #: start DevTools 
 dev:
-	dart devtools
-
-#: Build your Flutter app on $(PLATFORM)
-build:
-	@echo Build for $(PLATFORM)
-	@make -s build-$(PLATFORM)
-
-#: Run your Flutter on a platform: web, windows, linux, macos, android, ios
-run-%:
-	@echo "Building on: $*"
-	flutter run -d $* $(F_FLAGS)
-
-#: Build your Flutter app on a platform: web, windows, linux, macos, apk, appbundle, ios, ipa
-build-%:
-	@echo "Building on: $*"
-	@if [ "$*" = "web" ]; then \
-		flutter build web --release --web-renderer html $(F_FLAGS) $(args); \
-	else \
-		flutter build  $* --obfuscate --split-debug-info=. $(F_FLAGS) $(args); \
-	fi
-
+	cd example; make dev;
 
 # -----------------------------------------------------------------------------
 # OCI

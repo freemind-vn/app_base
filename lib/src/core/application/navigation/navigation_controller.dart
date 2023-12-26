@@ -1,4 +1,4 @@
-import 'package:app/core.dart';
+import 'package:app_base/core.dart';
 
 class NavigationController<T> extends Controller<int> {
   int index = 0;
