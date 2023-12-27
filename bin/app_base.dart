@@ -1,17 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
 
 const gitRepoUrl = 'git@gitlab.com:free-mind/woocommerce/app.git';
+const tag = 'template';
 
 void main(List<String> args) {
-  final runner = CommandRunner('app_base', "A Freemind's simple app template")
+  CommandRunner('app_base', "A Freemind's simple app template")
     ..addCommand(CreateCommand())
     ..addCommand(UpdateCommand())
     ..run(args);
-
-  runner.run(args);
 }
 
 class CreateCommand extends Command {
@@ -19,6 +17,7 @@ class CreateCommand extends Command {
   // subclass.
   @override
   final name = 'create';
+
   @override
   final description = 'Create a new project';
 
@@ -33,23 +32,31 @@ class CreateCommand extends Command {
   void run() async {
     // [argResults] is set before [run()] is called and contains the flags/options
     // passed to this command.
-    // print(argResults.toString());
 
-    stdout.writeln('Download the version: xyz');
-    // Process.run('git', ['clone', gitRepoUrl, '']);
-    final p = await Process.start('ls', ['~']);
-    p.stdout.transform(utf8.decoder).forEach(print);
+    var tmp = Directory.systemTemp.createTempSync().path;
+    Process.runSync(
+        'git', ['clone', gitRepoUrl, '-b', tag, '--depth', '1', tmp]);
+    Process.runSync('rm', ['-rf', '$tmp/.git']);
+
+    // Create the dest
+    final args = argResults?.arguments ?? [];
+    final dest = args.isNotEmpty ? args[0] : '.';
+    Process.runSync('mv', ['$tmp/example', dest]);
+    stdout.writeln('Project has been created at=$dest');
   }
 }
 
 class UpdateCommand extends Command {
   @override
   final name = 'update';
+
   @override
   final description = 'Update the existing project';
 
   UpdateCommand();
 
   @override
-  void run() {}
+  void run() {
+    throw UnimplementedError;
+  }
 }
