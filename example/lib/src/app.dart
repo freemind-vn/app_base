@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:app_base/core.dart';
+import 'package:app_base/app_base.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'package:app/app.dart';

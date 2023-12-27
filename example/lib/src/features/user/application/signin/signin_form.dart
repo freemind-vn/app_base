@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:app_base/core.dart';
+import 'package:app_base/app_base.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum SigninFormField { username, phone, password, agree }

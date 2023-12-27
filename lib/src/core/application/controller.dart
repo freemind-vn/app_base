@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:app_base/core.dart';
+import 'package:app_base/app_base.dart';
 
 extension ControllerBaseEventExtension<T extends BaseEvent> on Controller<T> {
   Stream<T> byStatus(EventStatus status) {

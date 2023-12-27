@@ -1,4 +1,4 @@
-import 'package:app_base/core.dart';
+import 'package:app_base/app_base.dart';
 
 enum FormFieldEventType { init, validate }
 

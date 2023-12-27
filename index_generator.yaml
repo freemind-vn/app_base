@@ -8,7 +8,7 @@ index_generator:
   indexes:
     # Package
     - path: lib
-      include: [src/*/*.dart]
+      include: [src/**/*.dart]
       name: app_base
 
     # # Core

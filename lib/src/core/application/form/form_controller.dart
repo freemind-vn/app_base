@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 
-import 'package:app_base/core.dart';
+import 'package:app_base/app_base.dart';
 
 class FormController<T extends Enum> extends Controller {
   List<FormFieldController?> _fields = [];
