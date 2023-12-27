@@ -39,14 +39,14 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 12),
             OutlinedButton(
               onPressed: () => Modular.to.pushNamed(StoryRoute.root),
-              style: context.theme.custom<ButtonStyle>(themeStyle1),
+              style: context.theme.custom(themeStyle1),
               child: const Text(
                 StoryRoute.root,
               ),
             ),
             OutlinedButton(
               onPressed: () => Modular.to.pushNamed(UserRoute.signin),
-              style: context.theme.custom<ButtonStyle>(themeStyle2),
+              style: context.theme.custom(themeStyle2),
               child: const Text(UserRoute.signin),
             ),
             OutlinedButton(
