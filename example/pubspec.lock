@@ -110,7 +110,7 @@ packages:
     source: hosted
     version: "2.0.3"
   flutter_modular:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_modular
       sha256: ac6298ce1abd414286ee5a554fc45e81e358461979b5d4e02c8abd685e3b23f2
