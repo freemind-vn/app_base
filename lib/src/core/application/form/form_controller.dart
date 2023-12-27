@@ -32,7 +32,7 @@ class FormController<T extends Enum> extends Controller {
     if (_fields[field.index] == null) {
       formInput.byType(FormFieldEventType.validate).listen(
         (event) {
-          _updateValidate(field, event.message == null);
+          _updateValidate(field.index, event.message == null);
         },
       );
       _fields[field.index] = formInput;
@@ -43,8 +43,8 @@ class FormController<T extends Enum> extends Controller {
   static const _validAll = 0xffff;
   int _isValid = 0;
 
-  _updateValidate(T field, bool valid) {
-    final fieldBit = 1 << field.index;
+  _updateValidate(int index, bool valid) {
+    final fieldBit = 1 << index;
     final currentState = (_isValid & fieldBit == fieldBit);
     // check state and update if needed
     if (valid != currentState) {
@@ -58,11 +58,28 @@ class FormController<T extends Enum> extends Controller {
     }
   }
 
-  isValid(T? field) {
-    if (field == null) {
+  bool _isValidByIndex([int? index]) {
+    if (index == null) {
       return _isValid == _validAll;
     }
-    final fieldBit = 1 << field.index;
+    final fieldBit = 1 << index;
     return (_isValid & fieldBit == fieldBit);
+  }
+
+  bool isValid([T? field]) {
+    return _isValidByIndex(field?.index);
+  }
+
+  bool validate([T? field]) {
+    if (field != null && getInput(field) != null) {
+      bool v = getInput(field)!.validate();
+      _updateValidate(field.index, v);
+      return v;
+    }
+    for (var i = 0; i < _fields.length; i++) {
+      bool v = (_fields[i]?.validate() ?? true);
+      _updateValidate(i, v);
+    }
+    return isValid();
   }
 }

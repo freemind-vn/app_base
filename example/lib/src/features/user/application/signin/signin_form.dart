@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class SignInForm extends StatelessWidget {
             stream: controller.register(
               SigninFormField.username,
               FormFieldController<String>(validator: (value) {
-                if (value.isEmpty) {
+                if (value == null || value.isEmpty) {
                   return 'required';
                 }
                 return null;
@@ -48,7 +48,7 @@ class SignInForm extends StatelessWidget {
               SigninFormField.phone,
               FormFieldController<String>(
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value == null || value.isEmpty) {
                     return 'required';
                   }
                   return null;
@@ -75,12 +75,15 @@ class SignInForm extends StatelessWidget {
           StreamBuilder(
             stream: controller.register(
               SigninFormField.password,
-              FormFieldController<String>(validator: (value) {
-                if (value.isEmpty) {
-                  return 'required';
-                }
-                return null;
-              }),
+              FormFieldController<String>(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'required';
+                  }
+                  return null;
+                },
+                validateOnChanged: false,
+              ),
             ),
             builder: (context, snapshot) {
               return TextFormField(
@@ -118,7 +121,9 @@ class SignInForm extends StatelessWidget {
             stream: stream,
             builder: (context, snapshot) {
               return ElevatedButton(
-                onPressed: controller.isValid(null) ? _onSubmit : null,
+                onPressed: controller.isValid(SigninFormField.agree)
+                    ? _onSubmit
+                    : null,
                 child: const Text('Login'),
               );
             },
@@ -129,7 +134,7 @@ class SignInForm extends StatelessWidget {
   }
 
   _onSubmit() {
-    if (controller.isValid(null)) {
+    if (controller.validate()) {
       onSubmit?.call(
         controller.getInput(SigninFormField.username)!.value,
         controller.getInput(SigninFormField.password)!.value,
