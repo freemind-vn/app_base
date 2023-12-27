@@ -1,58 +1,49 @@
 import 'package:flutter/material.dart';
 
 extension CustomStyleThemeExtension on ThemeData {
-  custom<T>(String name) {
-    return (extensions[name] as CustomStyle?)?.style as T?;
+  T? custom<T>(String name) {
+    return (extensions[name] as CustomStyle?)?.style;
   }
 }
 
 class CustomStyle<T> extends ThemeExtension<CustomStyle<T>> {
   final T style;
   final String? name;
-  CustomStyle({this.name, required this.style});
+  CustomStyle({this.name, required this.style})
+      : assert(
+          _lerp(style) != null,
+        );
+
+  static dynamic _lerp(dynamic object) {
+    switch (object.runtimeType) {
+      case ButtonStyle:
+        return ButtonStyle.lerp;
+      case TextStyle:
+        return TextStyle.lerp;
+    }
+    return null;
+  }
 
   @override
   Object get type => name ?? T;
 
   @override
   CustomStyle<T> copyWith({String? name, T? style}) {
-    switch (T) {
-      case ButtonStyle:
-        return CustomStyle(
-          name: name ?? this.name,
-          style: (this.style as ButtonStyle).merge(style as ButtonStyle?) as T,
-        );
-      case TextStyle:
-        return CustomStyle(
-          name: name ?? this.name,
-          style: (this.style as TextStyle).merge(style as TextStyle) as T,
-        );
-    }
-
-    return this;
+    return CustomStyle(
+      name: name ?? this.name,
+      style: (this.style as dynamic).merge(style) as T,
+    );
   }
 
   @override
   CustomStyle<T> lerp(covariant CustomStyle<T>? other, double t) {
-    switch (T) {
-      case ButtonStyle:
-        return CustomStyle(
-            style: (ButtonStyle.lerp(
-                  style as ButtonStyle,
-                  other?.style as ButtonStyle?,
-                  t,
-                ) ??
-                style) as T);
-      case TextStyle:
-        return CustomStyle(
-            style: (TextStyle.lerp(
-                  style as TextStyle,
-                  other?.style as TextStyle?,
-                  t,
-                ) ??
-                style) as T);
-    }
-
-    return this;
+    return CustomStyle(
+      style: (_lerp(style)(
+            style,
+            other?.style,
+            t,
+          ) ??
+          style) as T,
+    );
   }
 }
