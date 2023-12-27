@@ -9,4 +9,5 @@ export 'src/core/application/form/form_event.dart';
 export 'src/core/application/form/form_field_controller.dart';
 export 'src/core/application/navigation/bottom_navigation.dart';
 export 'src/core/application/navigation/navigation_controller.dart';
-export 'src/core/module.dart';
+export 'src/core/extension/context.dart';
+export 'src/core/extension/module.dart';

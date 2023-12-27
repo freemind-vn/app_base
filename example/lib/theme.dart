@@ -4,4 +4,3 @@ library theme;
 
 export 'src/core/themes/custom_style.dart';
 export 'src/core/themes/material.dart';
-export 'src/core/themes/theme.dart';

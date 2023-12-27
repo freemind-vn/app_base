@@ -41,7 +41,7 @@ class SignInPage extends StatelessWidget {
             );
             break;
           case EventStatus.error:
-            ScaffoldMessenger.of(context).showSnackBar(
+            context.messenger.showSnackBar(
               _buildErrorSnackBar(event.message, context),
             );
             break;
@@ -50,7 +50,7 @@ class SignInPage extends StatelessWidget {
         }
       },
       onError: (message) {
-        ScaffoldMessenger.of(context).showSnackBar(
+        context.messenger.showSnackBar(
           _buildErrorSnackBar(message, context),
         );
       },
@@ -65,7 +65,7 @@ class SignInPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
       ),
       margin: EdgeInsets.only(
-        bottom: MediaQuery.of(context).size.height - 100,
+        bottom: context.media.size.height - 100,
         right: 20,
         left: 20,
       ),
