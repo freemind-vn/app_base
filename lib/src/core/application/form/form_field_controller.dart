@@ -7,11 +7,12 @@ class FormFieldController<T> extends Controller<FormFieldEvent> {
   String? Function(T?)? validator;
   List<TextInputFormatter>? inputFormatters;
   bool validateOnChanged;
-  FormFieldController(
-      {this.value,
-      this.validator,
-      this.inputFormatters,
-      this.validateOnChanged = true});
+  FormFieldController({
+    this.value,
+    this.validator,
+    this.inputFormatters,
+    this.validateOnChanged = true,
+  });
   void onChanged(T? value) {
     this.value = value;
     if (validateOnChanged) {
