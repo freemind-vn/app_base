@@ -1,15 +1,15 @@
 import 'package:app_base/app_base.dart';
 
-enum FormFieldEventType { init, validate }
+enum FormInputEventType { init, validate }
 
-class FormFieldEvent<T> extends BaseEvent {
-  final FormFieldController<T>? field;
-  final FormFieldEventType type;
+class FormInputEvent<T> extends BaseEvent {
+  final FormInputController<T>? input;
+  final FormInputEventType type;
 
-  FormFieldEvent({
+  FormInputEvent({
     super.status,
-    this.type = FormFieldEventType.validate,
-    this.field,
+    this.type = FormInputEventType.validate,
+    this.input,
     super.message,
   });
 }

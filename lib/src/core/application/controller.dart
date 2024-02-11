@@ -3,12 +3,6 @@ import 'dart:developer';
 
 import 'package:app_base/app_base.dart';
 
-extension ControllerBaseEventExtension<T extends BaseEvent> on Controller<T> {
-  Stream<T> byStatus(EventStatus status) {
-    return stream.where((event) => event.status == status);
-  }
-}
-
 abstract class Controller<T> implements Disposable {
   final StreamController<T> _controller = StreamController.broadcast();
   static final StreamController<Controller> _streamController =

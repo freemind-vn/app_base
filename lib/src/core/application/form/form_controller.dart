@@ -1,65 +1,46 @@
-import 'dart:async';
-
-import 'package:flutter/widgets.dart';
-
 import 'package:app_base/app_base.dart';
 
 class FormController<T extends Enum> extends Controller {
-  List<FormFieldController?> _fields = [];
+  List<FormInputController?> _inputs = [];
 
-  FormFieldController<X>? getInput<X>(T field) =>
-      _fields[field.index] as FormFieldController<X>;
+  FormInputController<X>? getInput<X>(T input) =>
+      _inputs[input.index] as FormInputController<X>;
 
-  FormController(List<T> field) {
-    _fields = List.filled(field.length, null);
-    _isValid = _validAll & 0xffff << field.length;
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      _init();
-    });
+  FormController(List<T> input) {
+    _inputs = List.filled(input.length, null);
+    _isValid = _validAll & 0xffff << input.length;
   }
 
-  _init() {
-    for (var i = 0; i < _fields.length; i++) {
-      // field null: auto valid
-      if (_fields[i] == null) {
-        _updateValid(i, true);
-        continue;
-      }
-      _fields[i]!.send(FormFieldEvent(
-        type: FormFieldEventType.init,
-        field: _fields[i],
-      ));
-    }
-  }
-
-  Stream<FormFieldEvent> register(T field, FormFieldController formInput) {
-    if (_fields[field.index] == null) {
-      formInput.byType(FormFieldEventType.validate).listen(
+  FormInputController<X> register<X>(
+    T input,
+    FormInputController<X> formInput,
+  ) {
+    if (_inputs[input.index] == null) {
+      formInput.byType(FormInputEventType.validate).listen(
         (event) {
-          _updateValid(field.index, event.message == null);
+          _updateValid(input.index, event.message == null);
         },
       );
-      _fields[field.index] = formInput;
+      _inputs[input.index] = formInput;
     }
-    return _fields[field.index]!.stream;
+    return _inputs[input.index]! as FormInputController<X>;
   }
 
   static const _validAll = 0xffff;
   int _isValid = 0;
 
   _updateValid(int index, bool valid) {
-    final fieldBit = 1 << index;
-    final currentState = (_isValid & fieldBit == fieldBit);
+    final inputBit = 1 << index;
+    final currentState = (_isValid & inputBit == inputBit);
     // check state and update if needed
     if (valid != currentState) {
       if (!valid) {
-        _isValid ^= fieldBit;
+        _isValid ^= inputBit;
       } else {
-        _isValid |= fieldBit;
+        _isValid |= inputBit;
       }
 
-      send(FormFieldEvent());
+      send(FormInputEvent());
     }
   }
 
@@ -67,22 +48,22 @@ class FormController<T extends Enum> extends Controller {
     if (index == null) {
       return _isValid == _validAll;
     }
-    final fieldBit = 1 << index;
-    return (_isValid & fieldBit == fieldBit);
+    final inputBit = 1 << index;
+    return (_isValid & inputBit == inputBit);
   }
 
-  bool isValid([T? field]) {
-    return _isValidByIndex(field?.index);
+  bool isValid([T? input]) {
+    return _isValidByIndex(input?.index);
   }
 
-  bool validate([T? field]) {
-    if (field != null) {
-      final v = getInput(field)?.validate() ?? true;
-      _updateValid(field.index, v);
+  bool validate([T? input]) {
+    if (input != null) {
+      final v = getInput(input)?.validate() ?? true;
+      _updateValid(input.index, v);
       return v;
     }
-    for (var i = 0; i < _fields.length; i++) {
-      final v = (_fields[i]?.validate() ?? true);
+    for (var i = 0; i < _inputs.length; i++) {
+      final v = (_inputs[i]?.validate() ?? true);
       _updateValid(i, v);
     }
     return isValid();

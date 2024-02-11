@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:app_base/app_base.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-enum SigninFormField { username, phone, password, agree }
+enum SigninFormInput { username, phone, password, agree }
 
 class SignInForm extends StatelessWidget {
   SignInForm({super.key, FormController? controller, this.onSubmit}) {
-    this.controller = controller ?? FormController(SigninFormField.values);
+    this.controller = controller ?? FormController(SigninFormInput.values);
   }
 
   late final FormController controller;
@@ -17,36 +17,38 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = controller.on<FormFieldEvent>();
+    final stream = controller.on<FormInputEvent>();
     return Form(
       child: Column(
         children: [
-          StreamBuilder(
-            stream: controller.register(
-              SigninFormField.username,
-              FormFieldController<String>(validator: (value) {
+          FormInputBuilder<String>(
+            controller: controller.register(
+              SigninFormInput.username,
+              FormInputController(validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'required';
                 }
                 return null;
               }),
             ),
+            initialData: 'xxx',
             builder: (context, snapshot) {
               return TextFormField(
-                onChanged: snapshot.data?.field?.onChanged,
+                onChanged: snapshot.data?.input?.onChanged,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: 'Username',
                   errorText: snapshot.data?.message,
                 ),
+                initialValue: snapshot.data?.input?.value,
               );
             },
           ),
           const SizedBox(height: 6),
-          StreamBuilder(
-            stream: controller.register(
-              SigninFormField.phone,
-              FormFieldController<String>(
+          FormInputBuilder<String>(
+            controller: controller.register(
+              SigninFormInput.phone,
+              FormInputController(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'required';
@@ -60,22 +62,22 @@ class SignInForm extends StatelessWidget {
             ),
             builder: (context, snapshot) {
               return TextFormField(
-                onChanged: snapshot.data?.field?.onChanged,
+                onChanged: snapshot.data?.input?.onChanged,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   hintText: 'Phone',
                   errorText: snapshot.data?.message,
                 ),
                 keyboardType: TextInputType.phone,
-                inputFormatters: snapshot.data?.field?.inputFormatters,
+                inputFormatters: snapshot.data?.input?.inputFormatters,
               );
             },
           ),
           const SizedBox(height: 6),
-          StreamBuilder(
-            stream: controller.register(
-              SigninFormField.password,
-              FormFieldController<String>(
+          FormInputBuilder<String>(
+            controller: controller.register(
+              SigninFormInput.password,
+              FormInputController(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'required';
@@ -92,16 +94,16 @@ class SignInForm extends StatelessWidget {
                   hintText: 'Password',
                   errorText: snapshot.data?.message,
                 ),
-                onChanged: snapshot.data?.field?.onChanged,
+                onChanged: snapshot.data?.input?.onChanged,
                 obscureText: true,
               );
             },
           ),
           const SizedBox(height: 6),
-          StreamBuilder(
-            stream: controller.register(
-              SigninFormField.agree,
-              FormFieldController<bool?>(validator: (value) {
+          FormInputBuilder<bool?>(
+            controller: controller.register(
+              SigninFormInput.agree,
+              FormInputController(validator: (value) {
                 if (value != true) {
                   return '';
                 }
@@ -110,9 +112,9 @@ class SignInForm extends StatelessWidget {
             ),
             builder: (context, snapshot) {
               return Checkbox(
-                value: snapshot.data?.field?.value,
+                value: snapshot.data?.input?.value,
                 tristate: true,
-                onChanged: snapshot.data?.field?.onChanged,
+                onChanged: snapshot.data?.input?.onChanged,
               );
             },
           ),
@@ -121,7 +123,7 @@ class SignInForm extends StatelessWidget {
             stream: stream,
             builder: (context, snapshot) {
               return ElevatedButton(
-                onPressed: controller.isValid(SigninFormField.agree)
+                onPressed: controller.isValid(SigninFormInput.agree)
                     ? _onSubmit
                     : null,
                 child: const Text('Login'),
@@ -136,16 +138,16 @@ class SignInForm extends StatelessWidget {
   _onSubmit() {
     if (controller.validate()) {
       onSubmit?.call(
-        controller.getInput(SigninFormField.username)!.value,
-        controller.getInput(SigninFormField.password)!.value,
+        controller.getInput(SigninFormInput.username)!.value,
+        controller.getInput(SigninFormInput.password)!.value,
       );
-      log(controller.getInput(SigninFormField.phone)!.value);
-      log(controller.getInput(SigninFormField.phone)!.rawValue);
+      log(controller.getInput(SigninFormInput.phone)!.value);
+      log(controller.getInput(SigninFormInput.phone)!.rawValue);
     }
   }
 }
 
-extension FormInputExt on FormFieldController {
+extension FormInputExt on FormInputController {
   get rawValue {
     final formatter = inputFormatters
             ?.firstWhere((element) => element is MaskTextInputFormatter)
