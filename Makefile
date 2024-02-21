@@ -46,10 +46,10 @@ fmt:
 lint:
 	dart analyze lib/src/
 
-#: generate l10n from 'assets/l10n/app.xlsx'
+#: download arb files from the Weblate
 text:
-	curl -Lo assets/l10n/app.xlsx 'https://onedrive.live.com/download?cid=681330426B4177E7&resid=681330426B4177E7%21116603&authkey=AEteDTs04X0cW9U&em=2'
-	dart pub global run arb_excel -a assets/l10n/app.xlsx
+	curl -Lo assets/l10n/en.arb https://weblate.freemind.vn/download/app-base/glossary/en/
+	curl -Lo assets/l10n/vi.arb https://weblate.freemind.vn/download/app-base/glossary/vi/
 
 #: creates API reference documentation from Dart source code
 doc:
@@ -77,7 +77,7 @@ publish:
 run:
 	cd example; make run;
 
-#: start DevTools 
+#: start DevTools
 dev:
 	cd example; make dev;
 
