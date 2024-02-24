@@ -81,4 +81,6 @@ extension RouteManagerExt on base.RouteManager {
       duration: duration,
     ));
   }
+
+  base.ModularArguments get args => base.Modular.args;
 }
