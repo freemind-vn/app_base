@@ -4,7 +4,7 @@ version: 0.1.0
 homepage: https://dev.freemind.vn
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: '>=3.4.3 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -12,7 +12,7 @@ dependencies:
     sdk: flutter
 
   # Base
-  intl: ^0.18.1
+  intl: ^0.19.0
   flutter_modular: ^6.3.2
 
   # Features
@@ -21,7 +21,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

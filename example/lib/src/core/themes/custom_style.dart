@@ -16,9 +16,9 @@ class CustomStyle<T> extends ThemeExtension<CustomStyle<T>> {
 
   static dynamic _lerp(dynamic object) {
     switch (object.runtimeType) {
-      case ButtonStyle:
+      case ButtonStyle _:
         return ButtonStyle.lerp;
-      case TextStyle:
+      case TextStyle _:
         return TextStyle.lerp;
     }
     return null;

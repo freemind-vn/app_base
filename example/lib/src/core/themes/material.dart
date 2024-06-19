@@ -14,7 +14,7 @@ final lightTheme = ThemeData(
     centerTitle: true,
     shape: Border(
       bottom: BorderSide(
-        color: lightColorScheme.surfaceVariant,
+        color: lightColorScheme.surfaceContainerHighest,
         width: 1,
       ),
     ),
@@ -23,7 +23,7 @@ final lightTheme = ThemeData(
     CustomStyle(
       name: themeStyle1,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.blue),
+        backgroundColor: WidgetStateProperty.all(Colors.blue),
       ),
     ),
   ],
@@ -36,13 +36,13 @@ final dartkTheme = ThemeData(
     CustomStyle(
       name: themeStyle1,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.green),
+        backgroundColor: WidgetStateProperty.all(Colors.green),
       ),
     ),
     CustomStyle(
       name: themeStyle2,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(Colors.red),
+        backgroundColor: WidgetStateProperty.all(Colors.red),
       ),
     )
   ],
