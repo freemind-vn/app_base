@@ -23,7 +23,7 @@ class HomeSearchField extends StatelessWidget {
                 filled: true,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: const Icon(Icons.mic),
-                fillColor: context.theme.colorScheme.background,
+                fillColor: context.theme.colorScheme.surface,
               ),
               textInputAction: TextInputAction.go,
               onSubmitted: controller.onSubmit,
@@ -34,7 +34,7 @@ class HomeSearchField extends StatelessWidget {
             onPressed: controller.onPressedCart,
             icon: Icon(
               Icons.shopping_bag,
-              color: context.theme.colorScheme.background,
+              color: context.theme.colorScheme.surface,
             ),
           ),
         ],
