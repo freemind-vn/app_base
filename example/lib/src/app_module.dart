@@ -2,7 +2,6 @@ import 'package:app_base/app_base.dart';
 
 import 'package:app/app.dart';
 import 'package:app/home.dart';
-import 'package:app/stories.dart';
 import 'package:app/user.dart';
 
 class AppModule extends Module {
@@ -19,8 +18,6 @@ class AppModule extends Module {
     r.module(HomeRoute.root, module: HomeModule.new);
     r.module(UserRoute.root, module: UserModule.new);
     // r.module(CartRoute.root, module: CartModule.new);
-
-    r.module(StoryRoute.root, module: StoriesModule.new);
 
     r.child('/', child: (context) => const MainPage());
 

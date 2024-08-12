@@ -5,7 +5,6 @@ import 'package:app_base/app_base.dart';
 import 'package:app/cart.dart';
 import 'package:app/home.dart';
 import 'package:app/product.dart';
-import 'package:app/stories.dart';
 import 'package:app/theme.dart';
 import 'package:app/user.dart';
 
@@ -37,13 +36,6 @@ class HomePage extends StatelessWidget {
                   );
                 }),
             const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => Modular.to.pushNamed(StoryRoute.root),
-              style: context.theme.custom(themeStyle1),
-              child: const Text(
-                StoryRoute.root,
-              ),
-            ),
             OutlinedButton(
               onPressed: () => Modular.to.pushNamed(UserRoute.signin),
               style: context.theme.custom(themeStyle2),

@@ -7,7 +7,6 @@
 # Environments
 -include .env
 
-
 define get_pubspec
 $(shell yq -r ".$1" pubspec.yaml)
 endef
