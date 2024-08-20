@@ -21,9 +21,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Image.network(
-                'https://trongkhuvuon.com/wp-content/uploads/2022/01/trongkhuvuonsmall.png',
-              ),
+              child: Image.network('https://picsum.photos/300/200'),
             ),
             StreamBuilder(
                 initialData: userController.user,
