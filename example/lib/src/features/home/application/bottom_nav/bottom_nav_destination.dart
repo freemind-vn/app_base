@@ -15,6 +15,7 @@ class BottomNavDestination extends NavigationDestination {
     required super.label,
     super.tooltip,
   });
+
   final Widget destination;
 }
 

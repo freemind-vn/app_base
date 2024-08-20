@@ -14,9 +14,7 @@ class ProductItem extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.network(
-            'https://trongkhuvuon.com/wp-content/uploads/2022/07/gaba_acide_gamma-aminobutyrique.png',
-          ),
+          Image.network('https://picsum.photos/200'),
           Text(
             'Hộp viên uống GABA',
             style: context.theme.textTheme.titleLarge,
@@ -30,8 +28,9 @@ class ProductItem extends StatelessWidget {
               ),
               Text(
                 '490,000đ',
-                style: context.theme.textTheme.titleMedium
-                    ?.apply(decoration: TextDecoration.lineThrough),
+                style: context.theme.textTheme.titleMedium?.apply(
+                  decoration: TextDecoration.lineThrough,
+                ),
               ),
             ],
           ),

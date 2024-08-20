@@ -38,8 +38,8 @@ dependencies:
       url: git@github.com:freemind-vn/app_base.git
 
   # Base
-  intl: ^0.19.0
-  responsive_framework: ^1.1.1
+  intl: any
+  responsive_framework: any
 
   # Features
   wordpress_client: ^8.3.3

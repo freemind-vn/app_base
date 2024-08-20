@@ -6,8 +6,10 @@ import 'package:app/src/app_module.dart';
 import 'src/app.dart';
 
 void main() {
-  runApp(ModularApp(
-    module: AppModule(),
-    child: const App(),
-  ));
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: const App(),
+    ),
+  );
 }
