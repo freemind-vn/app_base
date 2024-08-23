@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'navigation_controller.dart';
+import 'package:app_base/app_base.dart';
 
 class BottomNavigation<T extends Widget> extends StatelessWidget {
   BottomNavigation({
@@ -15,12 +15,12 @@ class BottomNavigation<T extends Widget> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: controller.stream,
-      builder: (context, snapshot) {
+    return ControllerBuilder<int>(
+      controller: controller,
+      builder: (context, index) {
         return NavigationBar(
           onDestinationSelected: controller.onSelected,
-          selectedIndex: snapshot.data ?? 0,
+          selectedIndex: index ?? 0,
           destinations: controller.items,
         );
       },

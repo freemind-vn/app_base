@@ -2,20 +2,21 @@ import 'controller.dart';
 
 enum EventStatus { error, success, processing }
 
-abstract class BaseEvent {
+class Event<T> {
   final EventStatus status;
   final String? message;
+  final T? data;
 
-  BaseEvent({this.status = EventStatus.success, this.message});
+  Event({this.status = EventStatus.success, this.message, this.data});
 }
 
-extension StreamBaseEventExtension<T extends BaseEvent> on Stream<T> {
+extension StreamEventExtension<T extends Event> on Stream<T> {
   Stream<T> byStatus(EventStatus status) {
     return where((event) => event.status == status);
   }
 }
 
-extension ControllerBaseEventExtension<T extends BaseEvent> on Controller<T> {
+extension ControllerEventExtension<T extends Event> on Controller<T> {
   Stream<T> byStatus(EventStatus status) {
     return stream.where((event) => event.status == status);
   }

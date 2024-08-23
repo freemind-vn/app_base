@@ -17,7 +17,6 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = controller.on<FormInputEvent>();
     return Form(
       child: Column(
         children: [
@@ -119,9 +118,9 @@ class SignInForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: 6),
-          StreamBuilder(
-            stream: stream,
-            builder: (context, snapshot) {
+          ControllerBuilder<FormInputEvent>(
+            controller: controller,
+            builder: (context, _) {
               return ElevatedButton(
                 onPressed: controller.isValid(SigninFormInput.agree)
                     ? _onSubmit
