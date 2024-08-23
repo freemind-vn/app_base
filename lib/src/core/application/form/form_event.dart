@@ -2,7 +2,7 @@ import 'package:app_base/app_base.dart';
 
 enum FormInputEventType { init, validate }
 
-class FormInputEvent<T> extends BaseEvent {
+class FormInputEvent<T> extends Event {
   final FormInputController<T>? input;
   final FormInputEventType type;
 

@@ -16,14 +16,13 @@ class App extends StatelessWidget {
     Modular.setInitialRoute(HomeRoute.root);
 
     final controller = Modular.get<AppController>();
-    final stream = controller.on<ThemeDataEvent>();
-    return StreamBuilder(
-      stream: stream,
-      builder: (context, snapshot) {
+    return ControllerBuilder<ThemeDataEvent>(
+      controller: controller,
+      builder: (context, data) {
         return MaterialApp.router(
           theme: lightTheme,
           darkTheme: dartkTheme,
-          themeMode: snapshot.data?.themeMode,
+          themeMode: data?.themeMode,
           debugShowCheckedModeBanner: false,
           title: 'Example App',
           builder: (context, child) {

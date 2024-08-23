@@ -22,17 +22,17 @@ class WellcomePage extends StatelessWidget {
         ),
         title: const Text('Signin'),
       ),
-      body: StreamBuilder(
+      body: ControllerBuilder(
           initialData: controller.user,
-          stream: null,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+          controller: controller,
+          builder: (context, user) {
+            if (user == null) {
               return const Center(
                 child: Text('something wrong, user is null!!!'),
               );
             }
             return Center(
-              child: Text('wellcome ${snapshot.data?.username} to freemind!'),
+              child: Text('wellcome ${user.username} to freemind!'),
             );
           }),
     );

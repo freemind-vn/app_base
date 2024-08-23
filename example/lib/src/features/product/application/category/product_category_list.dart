@@ -1,8 +1,8 @@
+import 'package:app/base.dart';
 import 'package:flutter/material.dart';
 
 import 'package:app_base/app_base.dart';
 
-import 'package:app/base.dart';
 import 'package:app/product.dart';
 
 class ProductCategoryList extends StatelessWidget {
@@ -18,34 +18,36 @@ class ProductCategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: StreamBuilder(
-        stream: controller.on<ListEvent<Category>>(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+      child: ControllerBuilder<ListEvent<Category>>(
+        controller: controller,
+        builder: (context, event) {
+          if (event?.data == null) {
             return const SizedBox();
           }
+          final items = event!.data!;
           return Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: List.generate(
-                  snapshot.data!.items.length,
+                  items.length,
                   (index) => buildCategory(
-                    snapshot.data!.items[index],
+                    items[index],
                   ),
                 ),
               ),
-              StreamBuilder(
-                stream: controller.on<ListEvent<Product>>(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+              ControllerBuilder<ListProductEvent>(
+                controller: controller,
+                builder: (context, event) {
+                  if (event?.data == null) {
                     return const SizedBox();
                   }
+                  final items = event!.data!;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: List.generate(
-                      snapshot.data!.items.length,
-                      (index) => buildProduct(snapshot.data!.items[index]),
+                      items.length,
+                      (index) => buildProduct(items[index]),
                     ),
                   );
                 },
@@ -58,17 +60,16 @@ class ProductCategoryList extends StatelessWidget {
   }
 
   buildCategory(Category item) {
-    final stream = controller.on<ListProductEvent>().byCategory(item.id);
     return FilledButton.tonal(
       onPressed: () => controller.listProduct(item.id),
       child: Row(
         children: [
           Text(item.name),
-          StreamBuilder(
-            stream: stream,
-            initialData: null,
-            builder: (context, snapshot) {
-              if (snapshot.data?.status == EventStatus.processing) {
+          ControllerBuilder<ListProductEvent>(
+            controller: controller,
+            filter: (stream) => stream.byCategory(item.id),
+            builder: (context, event) {
+              if (event?.status == EventStatus.processing) {
                 return const CircularProgressIndicator();
               }
               return const SizedBox();

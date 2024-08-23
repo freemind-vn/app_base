@@ -23,13 +23,13 @@ class HomePage extends StatelessWidget {
             Center(
               child: Image.network('https://picsum.photos/300/200'),
             ),
-            StreamBuilder(
+            ControllerBuilder(
                 initialData: userController.user,
-                stream: userController.stream,
-                builder: (context, snapshot) {
+                controller: userController,
+                builder: (context, user) {
                   return Center(
                     child: Text(
-                      'Hello, ${snapshot.hasData ? snapshot.data!.username : 'world!'}',
+                      'Hello, ${user?.username ?? 'world!'}',
                     ),
                   );
                 }),

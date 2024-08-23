@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:app_base/app_base.dart';
 
-abstract class Controller<T> implements Disposable {
+class Controller<T> implements Disposable {
   final StreamController<T> _controller = StreamController.broadcast();
   static final StreamController<Controller> _streamController =
       StreamController.broadcast();
@@ -52,5 +52,21 @@ abstract class Controller<T> implements Disposable {
   @override
   void dispose() {
     _controller.close();
+  }
+}
+
+class ValueController<T> extends Controller<T?> {
+  T? _value;
+
+  ValueController([T? value]) : _value = value;
+
+  T? get value => _value;
+
+  set value(T? value) {
+    if (value == _value) {
+      return;
+    }
+    _value = value;
+    send(_value);
   }
 }

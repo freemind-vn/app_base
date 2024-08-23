@@ -18,12 +18,12 @@ class MainPage extends StatelessWidget {
         controller: controller,
         destinations: destinations,
       ),
-      body: StreamBuilder(
+      body: ControllerBuilder(
         initialData: 0,
-        stream: controller.stream,
-        builder: (context, snapshot) {
+        controller: controller,
+        builder: (context, data) {
           return IndexedStack(
-            index: snapshot.data ?? 0,
+            index: data ?? 0,
             children: controller.getListWidget(),
           );
         },
