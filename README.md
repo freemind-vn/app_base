@@ -1,16 +1,19 @@
 # app
 
-A new Flutter project.
+A Flutter project template.
 
-## Getting Started
+## How to create a project
 
-This project is a starting point for a Flutter application.
+- Create a new Flutter project
 
-A few resources to get you started if this is your first Flutter project:
+```sh
+flutter create --empty app
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Add `app_base` package
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```sh
+dart pub add app_base \
+  --git-url https://github.com/freemind-vn/app_base.git \
+  --git-ref cli
+```

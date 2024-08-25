@@ -10,7 +10,6 @@ index_generator:
     - path: lib
       include: [src/*.dart]
       name: app
-
     - path: lib
       include: [src/core/themes/*.dart]
       name: theme
