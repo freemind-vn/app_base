@@ -3,16 +3,12 @@
 # Environments
 -include .env
 
-define get_config
-$(shell yq -r ".$1" .config/service.base.yaml)
-endef
-
 define get_pubspec
 $(shell yq -r ".$1" pubspec.yaml)
 endef
 
 # Service
-NAME			= $(call get_config,name)
+NAME			= app
 VERSION			= $(call get_pubspec,version)
 DESCRIPTION		= $(call get_pubspec,description)
 ARCH			?= amd64
@@ -68,17 +64,15 @@ clean:
 
 #: install necessary packages
 init:
-	dart pub global activate dartdoc
-	dart pub global activate index_generator
-	dart pub global activate import_sorter
-#	dart pub global activate arb_excel
 #	dart pub global activate protoc_plugin
 #	dart pub global activate flutterfire_cli
+	dart pub add intl #protoc_plugin arb_excel
+	dart pub add dev:dartdoc dev:index_generator dev:import_sorter
 
 #: code formatting
 fmt:
-	dart pub global run index_generator
-	dart pub global run import_sorter:main --no-comments
+	dart run index_generator
+	dart run import_sorter:main --no-comments
 	dart fix --apply
 	dart format --fix lib/src/
 
@@ -89,7 +83,7 @@ lint:
 #: generate l10n from 'assets/l10n/app.xlsx'
 # text:
 # 	curl -Lo assets/l10n/app.xlsx 'https://onedrive.live.com/download?cid=681330426B4177E7&resid=681330426B4177E7%21116603&authkey=AEteDTs04X0cW9U&em=2'
-# 	dart pub global run arb_excel -a assets/l10n/app.xlsx
+# 	dart run arb_excel -a assets/l10n/app.xlsx
 
 #: download arb files from the Weblate
 text:
@@ -137,92 +131,92 @@ build-%:
 		flutter build  $* --obfuscate --split-debug-info=. $(F_FLAGS) $(args); \
 	fi
 
-# -----------------------------------------------------------------------------
-# OCI
-# -----------------------------------------------------------------------------
-#: build the image
-oci:
-	@$(foreach arch,$(ARCH), \
-		version=$(shell echo $(VERSION) | sed -e 's/+.*//'); \
-		echo "build: $(RELEASE_NAME):$${version}-$(arch)"; \
-		podman build -t $(RELEASE_NAME):$${version}-$(arch) -f $(DOCKERFILE) \
-			--arch $(arch) $(args) \
-			--build-arg arch=$(arch) \
-			--annotation org.opencontainers.image.created="$(shell date -I'seconds')" \
-			--annotation org.opencontainers.image.description="$(DESCRIPTION)" \
-			--annotation io.artifacthub.package.readme-url="$(README)"; \
-	)
-
-#: push an image to a specified location that defined in '.makerc'
-oci-push:
-ifdef REGISTRY_USER
-	podman login -u $(REGISTRY_USER) -p $(REGISTRY_PWD) $(REGISTRY)
-else
-	podman login $(REGISTRY)
-endif
-
-	-podman manifest rm $(RELEASE_NAME):$(VERSION)
-	podman manifest create $(RELEASE_NAME):$(VERSION)
-
-	@$(foreach arch,$(ARCH), \
-		echo "push: $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch)"; \
-		podman push $(RELEASE_NAME):$(VERSION)-$(arch) \
-			$(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch); \
-		podman manifest add $(RELEASE_NAME):$(VERSION) \
-			$(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch); \
-	)
-
-	@echo "push: $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)"
-	podman manifest push $(RELEASE_NAME):$(VERSION) $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)
-
-# -----------------------------------------------------------------------------
-# Helm
-# -----------------------------------------------------------------------------
-#: generate the Helm chart
-helm:
-	gkgen helm $(args)
-ifneq ($(NAME),$(RELEASE_NAME))
-	sed -i -e 's/name: $(NAME)/name: $(RELEASE_NAME)/' .chart/Chart.yaml
-endif
-	cp .config/service.k8s.yaml .chart/values.yaml
-ifneq ($(wildcard .chart/Chart.lock),)
-	rm .chart/Chart.lock
-endif
-	helm dependency build .chart/
-	helm lint .chart/
-
-#: render chart templates locally and write to '.chart/k8s.yaml'
-pod: helm
-	helm template $(RELEASE_NAME) .chart/ > .chart/k8s.yaml
-
-#: upload chart to the repo that defined in '.makerc'
-package: helm
-	helm cm-push .chart/ $(HELM_REPO)
-
-#: install the chart to a remote defined in '.makerc'
-install:
-	helm repo update && helm install $(RELEASE_NAME) $(HELM_REPO)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) --version $(VERSION) $(args)
-
-#: upgrade the release to the current version of the chart
-upgrade:
-	helm repo update && helm upgrade $(RELEASE_NAME) $(HELM_REPO)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) --version $(VERSION) $(args)
-
-#: restart the release
-restart:
-	kubectl rollout restart $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE)
-
-#: uninstall the release
-uninstall:
-	helm uninstall $(RELEASE_NAME) -n $(HELM_NAMESPACE)
-
-#: execute the release
-exec:
-	kubectl exec -it $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) -- sh
-
-#: print the logs for the deployment
-logs:
-	kubectl logs $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -f -n $(HELM_NAMESPACE) --timestamps
-
-#: stop the release
-stop:
-	kubectl scale --replicas=0 $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE)
+# # -----------------------------------------------------------------------------
+# # OCI
+# # -----------------------------------------------------------------------------
+# #: build the image
+# oci:
+# 	@$(foreach arch,$(ARCH), \
+# 		version=$(shell echo $(VERSION) | sed -e 's/+.*//'); \
+# 		echo "build: $(RELEASE_NAME):$${version}-$(arch)"; \
+# 		podman build -t $(RELEASE_NAME):$${version}-$(arch) -f $(DOCKERFILE) \
+# 			--arch $(arch) $(args) \
+# 			--build-arg arch=$(arch) \
+# 			--annotation org.opencontainers.image.created="$(shell date -I'seconds')" \
+# 			--annotation org.opencontainers.image.description="$(DESCRIPTION)" \
+# 			--annotation io.artifacthub.package.readme-url="$(README)"; \
+# 	)
+#
+# #: push an image to a specified location that defined in '.makerc'
+# oci-push:
+# ifdef REGISTRY_USER
+# 	podman login -u $(REGISTRY_USER) -p $(REGISTRY_PWD) $(REGISTRY)
+# else
+# 	podman login $(REGISTRY)
+# endif
+#
+# 	-podman manifest rm $(RELEASE_NAME):$(VERSION)
+# 	podman manifest create $(RELEASE_NAME):$(VERSION)
+#
+# 	@$(foreach arch,$(ARCH), \
+# 		echo "push: $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch)"; \
+# 		podman push $(RELEASE_NAME):$(VERSION)-$(arch) \
+# 			$(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch); \
+# 		podman manifest add $(RELEASE_NAME):$(VERSION) \
+# 			$(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)-$(arch); \
+# 	)
+#
+# 	@echo "push: $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)"
+# 	podman manifest push $(RELEASE_NAME):$(VERSION) $(REGISTRY)/$(REGISTRY_REPO)/$(RELEASE_NAME):$(VERSION)
+#
+# # -----------------------------------------------------------------------------
+# # Helm
+# # -----------------------------------------------------------------------------
+# #: generate the Helm chart
+# helm:
+# 	gkgen helm $(args)
+# ifneq ($(NAME),$(RELEASE_NAME))
+# 	sed -i -e 's/name: $(NAME)/name: $(RELEASE_NAME)/' .chart/Chart.yaml
+# endif
+# 	cp .config/service.k8s.yaml .chart/values.yaml
+# ifneq ($(wildcard .chart/Chart.lock),)
+# 	rm .chart/Chart.lock
+# endif
+# 	helm dependency build .chart/
+# 	helm lint .chart/
+#
+# #: render chart templates locally and write to '.chart/k8s.yaml'
+# pod: helm
+# 	helm template $(RELEASE_NAME) .chart/ > .chart/k8s.yaml
+#
+# #: upload chart to the repo that defined in '.makerc'
+# package: helm
+# 	helm cm-push .chart/ $(HELM_REPO)
+#
+# #: install the chart to a remote defined in '.makerc'
+# install:
+# 	helm repo update && helm install $(RELEASE_NAME) $(HELM_REPO)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) --version $(VERSION) $(args)
+#
+# #: upgrade the release to the current version of the chart
+# upgrade:
+# 	helm repo update && helm upgrade $(RELEASE_NAME) $(HELM_REPO)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) --version $(VERSION) $(args)
+#
+# #: restart the release
+# restart:
+# 	kubectl rollout restart $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE)
+#
+# #: uninstall the release
+# uninstall:
+# 	helm uninstall $(RELEASE_NAME) -n $(HELM_NAMESPACE)
+#
+# #: execute the release
+# exec:
+# 	kubectl exec -it $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE) -- sh
+#
+# #: print the logs for the deployment
+# logs:
+# 	kubectl logs $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -f -n $(HELM_NAMESPACE) --timestamps
+#
+# #: stop the release
+# stop:
+# 	kubectl scale --replicas=0 $(DEPLOYMENT_KIND)/$(RELEASE_NAME) -n $(HELM_NAMESPACE)
