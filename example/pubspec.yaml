@@ -33,9 +33,7 @@ dependencies:
 
   # Freeind's app template
   app_base:
-    # path: ../
-    git:
-      url: git@github.com:freemind-vn/app_base.git
+    path: ../
 
   # Base
   intl: any
