@@ -25,11 +25,9 @@ packages:
   app_base:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e050216ba3edc9d61bc7e90ad9ff511be8780f24
-      url: "git@github.com:freemind-vn/app_base.git"
-    source: git
+      path: ".."
+      relative: true
+    source: path
     version: "0.1.0"
   args:
     dependency: transitive
