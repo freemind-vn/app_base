@@ -2,8 +2,29 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 
-Future<void> execShell(String cmd, [String shell = 'sh']) async {
-  final process = await Process.start(shell, ['-c', cmd]);
+const gitRepoUrl = 'https://github.com/freemind-vn/app_base.git';
+
+// Index generator file config
+const indexGeneratorTpl = '''
+index_generator:
+  exclude:
+    - "**.g.dart"
+  indexes:
+    - path: lib
+      include: [src/*.dart]
+      name: app
+''';
+
+Future<void> execShell(
+  String cmd, {
+  String shell = 'sh',
+  String? workingDirectory,
+}) async {
+  final process = await Process.start(
+    shell,
+    ['-c', cmd],
+    workingDirectory: workingDirectory,
+  );
   await stdout.addStream(process.stdout);
   await stdout.addStream(process.stderr);
 }
