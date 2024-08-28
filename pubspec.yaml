@@ -13,6 +13,7 @@ dependencies:
 
   # CLI
   args: ^2.5.0
+  io: ^1.0.4
   path: ^1.9.0
 
   # Base

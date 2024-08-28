@@ -33,16 +33,18 @@ ifeq ($(PLATFORM), darwin)
 endif
 
 # Flutter build flags
-SERVICE_HOST	?= wp.dev.freemind.vn
+SERVICE_HOST	?= appbase.dev.freemind.vn
 SERVICE_SCHEME	?= https
-SERVICE_KEY		?= ck_035f1b119915354512de933ed10a17b7b9a1dbba
-SERVICE_SECRET	?= cs_327a6d29343442bae049d1170797b3bcc7b79b79
+SERVICE_KEY		?= key
+SERVICE_SECRET	?= secret
 
-F_FLAGS			?= --dart-define=SERVICE_HOST=$(SERVICE_HOST) \
-	--dart-define SERVICE_SCHEME=$(SERVICE_SCHEME) \
-	--dart-define VERSION='$(VERSION)' \
+F_FLAGS			?= --dart-define VERSION='$(VERSION)' \
 	--dart-define BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
-	--dart-define HASH=$(shell git rev-parse --short HEAD)
+	--dart-define HASH=$(shell git rev-parse --short HEAD) \
+	--dart-define=SERVICE_HOST=$(SERVICE_HOST) \
+	--dart-define SERVICE_SCHEME=$(SERVICE_SCHEME) \
+	--dart-define SERVICE_KEY=$(SERVICE_KEY) \
+	--dart-define SERVICE_SECRET=$(SERVICE_SECRET) \
 
 #: list all targets
 help:
@@ -64,15 +66,17 @@ clean:
 
 #: install necessary packages
 init:
+	dart pub global activate index_generator
+	dart pub global activate import_sorter
 #	dart pub global activate protoc_plugin
 #	dart pub global activate flutterfire_cli
-	dart pub add intl #protoc_plugin arb_excel
-	dart pub add dev:dartdoc dev:index_generator dev:import_sorter
+#	dart pub global activate arb_excel
+	dart pub add intl
 
 #: code formatting
 fmt:
-	dart run index_generator
-	dart run import_sorter:main --no-comments
+	dart pub global run index_generator
+	dart pub global run import_sorter:main --no-comments
 	dart fix --apply
 	dart format --fix lib/src/
 
@@ -83,7 +87,7 @@ lint:
 #: generate l10n from 'assets/l10n/app.xlsx'
 # text:
 # 	curl -Lo assets/l10n/app.xlsx 'https://onedrive.live.com/download?cid=681330426B4177E7&resid=681330426B4177E7%21116603&authkey=AEteDTs04X0cW9U&em=2'
-# 	dart run arb_excel -a assets/l10n/app.xlsx
+# 	dart pub global run arb_excel -a assets/l10n/app.xlsx
 
 #: download arb files from the Weblate
 text:
