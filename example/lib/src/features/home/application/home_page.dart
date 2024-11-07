@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
             Center(
               child: Image.network('https://picsum.photos/300/200'),
             ),
-            ControllerBuilder(
+            ControllerBuilder<User?>(
                 initialData: userController.user,
                 controller: userController,
                 builder: (context, user) {
