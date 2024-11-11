@@ -23,7 +23,7 @@ class MainPage extends StatelessWidget {
         controller: controller,
         builder: (context, data) {
           return IndexedStack(
-            index: data ?? 0,
+            index: data,
             children: controller.getListWidget(),
           );
         },

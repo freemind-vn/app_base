@@ -118,7 +118,7 @@ class SignInForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: 6),
-          ControllerBuilder<FormInputEvent>(
+          ControllerBuilder<FormInputEvent?>(
             controller: controller,
             builder: (context, _) {
               return ElevatedButton(

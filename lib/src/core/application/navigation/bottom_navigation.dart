@@ -17,10 +17,11 @@ class BottomNavigation<T extends Widget> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ControllerBuilder<int>(
       controller: controller,
+      initialData: 0,
       builder: (context, index) {
         return NavigationBar(
           onDestinationSelected: controller.onSelected,
-          selectedIndex: index ?? 0,
+          selectedIndex: index,
           destinations: controller.items,
         );
       },

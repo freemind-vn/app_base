@@ -26,11 +26,6 @@ class WellcomePage extends StatelessWidget {
           initialData: controller.user,
           controller: controller,
           builder: (context, user) {
-            if (user == null) {
-              return const Center(
-                child: Text('something wrong, user is null!!!'),
-              );
-            }
             return Center(
               child: Text('wellcome ${user.username} to freemind!'),
             );

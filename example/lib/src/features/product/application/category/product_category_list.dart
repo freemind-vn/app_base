@@ -18,12 +18,10 @@ class ProductCategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: ControllerBuilder<ListEvent<Category>>(
+      child: ControllerBuilder<ListEvent<Category>?>(
         controller: controller,
+        noDataBuilder: (context) => const SizedBox(),
         builder: (context, event) {
-          if (event?.data == null) {
-            return const SizedBox();
-          }
           final items = event!.data!;
           return Column(
             children: [
@@ -36,12 +34,10 @@ class ProductCategoryList extends StatelessWidget {
                   ),
                 ),
               ),
-              ControllerBuilder<ListProductEvent>(
+              ControllerBuilder<ListProductEvent?>(
                 controller: controller,
+                noDataBuilder: (p0) => const SizedBox(),
                 builder: (context, event) {
-                  if (event?.data == null) {
-                    return const SizedBox();
-                  }
                   final items = event!.data!;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +65,7 @@ class ProductCategoryList extends StatelessWidget {
             controller: controller,
             filter: (stream) => stream.byCategory(item.id),
             builder: (context, event) {
-              if (event?.status == EventStatus.processing) {
+              if (event.status == EventStatus.processing) {
                 return const CircularProgressIndicator();
               }
               return const SizedBox();

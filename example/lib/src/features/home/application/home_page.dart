@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
             ControllerBuilder<User?>(
                 initialData: userController.user,
                 controller: userController,
+                noDataBuilder: (p0) => const SizedBox.shrink(),
                 builder: (context, user) {
                   return Center(
                     child: Text(
