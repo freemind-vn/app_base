@@ -66,14 +66,14 @@ class InitCommand extends Command {
     _createIndexGeneratorConfig();
 
     // Create widgetbook
-    await execShell('flutter create --empty widgetbook');
+    await execShell('flutter create --empty wbook');
     await execShell(
       'dart pub add widgetbook widgetbook_annotation',
-      workingDirectory: 'widgetbook',
+      workingDirectory: 'wbook',
     );
     await execShell(
       'dart pub add dev:widgetbook_generator dev:build_runner',
-      workingDirectory: 'widgetbook',
+      workingDirectory: 'wbook',
     );
   }
 
